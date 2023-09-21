@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "123070157176",
+    "project_id": "cophat-25881",
+    "storage_bucket": "cophat-25881.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:123070157176:android:a0857331823fe08716f88d",
+        "android_client_info": {
+          "package_name": "br.com.ruyano.cophat"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDuyrh1wBPBmdlKuzJudJ-KLK8JorkWRn0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

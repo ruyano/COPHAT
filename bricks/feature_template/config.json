@@ -1,0 +1,32 @@
+{
+  "bloc":"guardian questionnaire",
+  "states":[
+    {
+      "name":"empty",
+      "variables":[]
+    },
+    {
+      "name":"loading",
+      "variables":[]
+    },
+    {
+      "name":"success",
+      "variables":[]
+    },
+    {
+      "name":"error",
+      "variables":[
+        {
+          "name":"message",
+          "type":"String"
+        }
+      ]
+    }
+  ],
+  "events":[
+    {
+      "name":"getQuestionsList",
+      "variables":[]
+    }
+  ]
+}
