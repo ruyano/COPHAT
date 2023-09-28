@@ -5,10 +5,12 @@ class GuardianQuestionModel extends GuardianQuestionEntity {
   GuardianQuestionModel({
     String? id,
     String? question,
+    String? questionType,
     List<String>? answers,
   }) : super(
     id: id,
     question: question,
+    questionType: questionType,
     answers: answers,
   );
 
@@ -16,6 +18,7 @@ class GuardianQuestionModel extends GuardianQuestionEntity {
     return GuardianQuestionModel(
         id: json['id'],
         question: json['question'],
+        questionType: json['questionType'],
         answers: json['answers'].cast<String>()
     );
   }
@@ -24,6 +27,7 @@ class GuardianQuestionModel extends GuardianQuestionEntity {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
     data['question'] = question;
+    data['questionType'] = questionType;
     data['answers'] = answers;
     return data;
   }

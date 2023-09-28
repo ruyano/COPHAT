@@ -1,4 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:cophat/child_questionnaire/presentation/presentation/child_questionnaire_page.dart';
 import 'package:cophat/core/nav.dart';
 import 'package:cophat/core/ui_components/button_cophat.dart';
 import 'package:flutter/material.dart';
@@ -51,7 +52,7 @@ class HomePage extends StatelessWidget {
             child: ButtonCophat(
               text: 'Questionário da criança',
               onPressed: () {
-                Nav.push(context, const GuardianQuestionnairePage());
+                Nav.push(context, const ChildQuestionnairePage());
               },
             ),
           ),

@@ -4,6 +4,7 @@ import 'package:cophat/guardian_questionnaire/data/models/guardian_question_mode
 import 'package:flutter/material.dart';
 
 import '../../../../core/ui_components/button_cophat.dart';
+import '../../../../core/ui_components/cophat_dropdown_menu.dart';
 import '../../../domain/entities/guardian_question_entity.dart';
 
 class CreateOrUpdateQuestion extends StatelessWidget {
@@ -23,6 +24,9 @@ class CreateOrUpdateQuestion extends StatelessWidget {
   final _answer1TextEditingController = TextEditingController();
   final _answer2TextEditingController = TextEditingController();
   final _answer3TextEditingController = TextEditingController();
+  final _answer4TextEditingController = TextEditingController();
+  final _answer5TextEditingController = TextEditingController();
+  final _dropdownController = ValueNotifier<String?>('');
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +78,7 @@ class CreateOrUpdateQuestion extends StatelessWidget {
                   padding: const EdgeInsets.only(
                       left: 15.0, right: 15.0, top: 15, bottom: 0),
                   child: TextField(
-                    controller: _answer1TextEditingController..text = questionEntity?.answers?[0] ?? '',
+                    controller: _answer1TextEditingController..text = _getAnswer(0),
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(),
                       labelText: 'Resposta 1',
@@ -85,7 +89,7 @@ class CreateOrUpdateQuestion extends StatelessWidget {
                   padding: const EdgeInsets.only(
                       left: 15.0, right: 15.0, top: 15, bottom: 0),
                   child: TextField(
-                    controller: _answer2TextEditingController..text = questionEntity?.answers?[1] ?? '',
+                    controller: _answer2TextEditingController..text = _getAnswer(1),
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(),
                       labelText: 'Resposta 2',
@@ -96,11 +100,40 @@ class CreateOrUpdateQuestion extends StatelessWidget {
                   padding: const EdgeInsets.only(
                       left: 15.0, right: 15.0, top: 15, bottom: 0),
                   child: TextField(
-                    controller: _answer3TextEditingController..text = questionEntity?.answers?[2] ?? '',
+                    controller: _answer3TextEditingController..text = _getAnswer(2),
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(),
                       labelText: 'Resposta 3',
                     ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(
+                      left: 15.0, right: 15.0, top: 15, bottom: 0),
+                  child: TextField(
+                    controller: _answer4TextEditingController..text = _getAnswer(3),
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Resposta 4',
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(
+                      left: 15.0, right: 15.0, top: 15, bottom: 0),
+                  child: TextField(
+                    controller: _answer5TextEditingController..text = _getAnswer(4),
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Resposta 5',
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(
+                      left: 15.0, right: 15.0, top: 15, bottom: 0),
+                  child: CophatDropdownMenu(
+                    controller: _dropdownController..value = questionEntity?.questionType ?? '',
                   ),
                 ),
               ],
@@ -115,10 +148,13 @@ class CreateOrUpdateQuestion extends StatelessWidget {
               onPressed(GuardianQuestionModel(
                 id: questionEntity?.id,
                 question: _questionTextEditingController.text,
+                questionType: _dropdownController.value,
                 answers: [
                   _answer1TextEditingController.text,
                   _answer2TextEditingController.text,
                   _answer3TextEditingController.text,
+                  _answer4TextEditingController.text,
+                  _answer5TextEditingController.text,
                 ],
               ));
               Nav.pop(context);
@@ -139,6 +175,16 @@ class CreateOrUpdateQuestion extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  _getAnswer(int position) {
+    int? length = questionEntity?.answers?.length;
+
+    if(length != null && length > position) {
+      return questionEntity?.answers?[position] ?? '';
+    }
+
+    return '';
   }
 
 }

@@ -4,7 +4,6 @@ import 'package:equatable/equatable.dart';
 
 import '../../../core/use_case.dart';
 import '../../data/models/guardian_question_model.dart';
-import '../entities/guardian_question_entity.dart';
 import '../repositories/guardian_questionnaire_remote_repository.dart';
 
 class CreateGuardianQuestionUseCase implements UseCase<void, CreateGuardianQuestionUseCaseParams> {

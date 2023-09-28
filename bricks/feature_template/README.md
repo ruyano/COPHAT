@@ -1,5 +1,5 @@
 Comando para executar o brick:
-mason make feature_template -c [absolute path do arquivo config.json]
+mason make feature_template -c /Users/ruyano/Documents/TCC/COPHAT/bricks/feature_template/config.json
 
 
 # feature_template

@@ -15,20 +15,6 @@ class GuardianQuestionnaireRemoteRepositoryImpl implements GuardianQuestionnaire
   });
 
   @override
-  Future<Either<ServerFailure, List<GuardianQuestionEntity>>> readQuestions() async {
-    try {
-      final result = await remoteDataSource.readQuestions();
-      return Right(result);
-    } catch(error) {
-      if(error is ServerException) {
-        return Left(ServerFailure(message: error.message));
-      } else {
-        return const Left(ServerFailure(message: 'Erro ao ler as questões.'));
-      }
-    }
-  }
-
-  @override
   Future<Either<ServerFailure, void>> createQuestion(
       GuardianQuestionModel question,
       ) async {
@@ -40,6 +26,20 @@ class GuardianQuestionnaireRemoteRepositoryImpl implements GuardianQuestionnaire
         return Left(ServerFailure(message: error.message));
       } else {
         return const Left(ServerFailure(message: 'Erro ao criar a questão.'));
+      }
+    }
+  }
+
+  @override
+  Future<Either<ServerFailure, List<GuardianQuestionEntity>>> readQuestions() async {
+    try {
+      final result = await remoteDataSource.readQuestions();
+      return Right(result);
+    } catch(error) {
+      if(error is ServerException) {
+        return Left(ServerFailure(message: error.message));
+      } else {
+        return const Left(ServerFailure(message: 'Erro ao ler as questões.'));
       }
     }
   }

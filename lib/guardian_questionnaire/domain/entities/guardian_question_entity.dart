@@ -4,11 +4,13 @@ class GuardianQuestionEntity extends Equatable {
 
   String? id;
   final String? question;
+  final String? questionType;
   final List<String>? answers;
 
   GuardianQuestionEntity({
     this.id,
     this.question,
+    this.questionType,
     this.answers
   });
 
@@ -16,6 +18,7 @@ class GuardianQuestionEntity extends Equatable {
   List<Object?> get props => [
     id,
     question,
+    questionType,
     answers,
   ];
 }
