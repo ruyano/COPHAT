@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cophat/child_questionnaire/presentation/presentation/child_questionnaire_page.dart';
 import 'package:cophat/core/nav.dart';
 import 'package:cophat/core/ui_components/button_cophat.dart';
+import 'package:cophat/family/presentation/presentation/family_page.dart';
 import 'package:flutter/material.dart';
 
 import '../guardian_questionnaire/presentation/presentation/guardian_questionnaire_page.dart';
@@ -61,7 +62,7 @@ class HomePage extends StatelessWidget {
             child: ButtonCophat(
               text: 'Famílias',
               onPressed: () {
-                Nav.push(context, const GuardianQuestionnairePage());
+                Nav.push(context, const FamilyPage());
               },
             ),
           ),

@@ -40,7 +40,7 @@ class GuardianQuestionnairePage extends StatelessWidget {
     return AppBar(
       centerTitle: true,
       title: const AutoSizeText(
-        'Questinário',
+        'Questinário do responsável',
         maxFontSize: 16.0,
         textScaleFactor: 1.0,
       ),

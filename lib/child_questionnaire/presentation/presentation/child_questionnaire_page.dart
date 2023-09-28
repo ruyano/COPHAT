@@ -40,7 +40,7 @@ class ChildQuestionnairePage extends StatelessWidget {
     return AppBar(
       centerTitle: true,
       title: const AutoSizeText(
-        'Questinário',
+        'Questinário da criança',
         maxFontSize: 16.0,
         textScaleFactor: 1.0,
       ),
