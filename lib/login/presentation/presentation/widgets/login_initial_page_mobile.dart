@@ -60,12 +60,12 @@ class LoginInitialPageMobile extends StatelessWidget {
         children: [
           TextFieldCophat(
             labelText: 'Email',
-            controller: _emailController..text = 'ruyano@gmail.com',
+            controller: _emailController..text = 'admin@admin.com',
           ),
           Container(height: 15,),
           TextFieldCophat(
             labelText: 'Senha',
-            controller: _passwordController..text = 'Senha@123',
+            controller: _passwordController..text = 'admin@admin.com',
           ),
           Container(height: 15,),
           ButtonCophat(

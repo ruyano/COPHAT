@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import '../../../core/error/exceptions.dart';
 import '../models/{{featureName.snakeCase()}}_model.dart';
 
 abstract class {{featureName.pascalCase()}}RemoteDataSource {
@@ -26,6 +27,9 @@ class {{featureName.pascalCase()}}RemoteDataSourceImpl implements {{featureName.
       question.id = doc.id;
       await doc.set(question.toJson());
     } catch (e) {
+      if(e is FirebaseException) {
+        throw ServerException(message: e.message ?? '-');
+      }
       rethrow;
     }
   }
@@ -37,6 +41,9 @@ class {{featureName.pascalCase()}}RemoteDataSourceImpl implements {{featureName.
       var list = result.docs.map((e) => {{featureName.pascalCase()}}Model.fromJson(e.data())).toList();
       return list;
     } catch (e) {
+      if(e is FirebaseException) {
+        throw ServerException(message: e.message ?? '-');
+      }
       rethrow;
     }
   }
@@ -47,6 +54,9 @@ class {{featureName.pascalCase()}}RemoteDataSourceImpl implements {{featureName.
       var doc = firestoreInstance.collection(_collectionName).doc(model.id);
       await doc.update(model.toJson());
     } catch (e) {
+      if(e is FirebaseException) {
+        throw ServerException(message: e.message ?? '-');
+      }
       rethrow;
     }
   }
@@ -57,6 +67,9 @@ class {{featureName.pascalCase()}}RemoteDataSourceImpl implements {{featureName.
       var doc = firestoreInstance.collection(_collectionName).doc(id);
       await doc.delete();
     } catch (e) {
+      if(e is FirebaseException) {
+        throw ServerException(message: e.message ?? '-');
+      }
       rethrow;
     }
   }

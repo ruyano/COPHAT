@@ -1,11 +1,12 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cophat/core/nav.dart';
-import 'package:cophat/{{featureName.snakeCase()}}/presentation/presentation/widgets/{{featureName.snakeCase()}}_create_or_update_question.dart';
+import 'package:cophat/{{featureName.snakeCase()}}/presentation/presentation/widgets/{{featureName.snakeCase()}}_create_or_update.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/ui_components/button_cophat.dart';
 import '../../../core/loading_indicator.dart';
+import '../../../core/empty_indicator.dart';
 import '../../../core/show_error.dart';
 import '../../domain/entities/{{featureName.snakeCase()}}_entity.dart';
 import '../bloc/{{featureName.snakeCase()}}_bloc.dart';
@@ -40,7 +41,7 @@ class {{featureName.pascalCase()}}Page extends StatelessWidget {
     return AppBar(
       centerTitle: true,
       title: const AutoSizeText(
-        'Questinário',
+        '{{featureName.pascalCase()}}',
         maxFontSize: 16.0,
         textScaleFactor: 1.0,
       ),
@@ -57,10 +58,7 @@ class {{featureName.pascalCase()}}Page extends StatelessWidget {
   _setupBody(BuildContext context, {{featureName.pascalCase()}}State state) {
 
     if(state is {{featureName.pascalCase()}}Empty) {
-      //TODO - exibir tela para o estado de Empty
-      return Container(
-        color: Colors.purple,
-      );
+      return _body(true, context, null);
     }
 
     if(state is {{featureName.pascalCase()}}Loading) {
@@ -68,7 +66,7 @@ class {{featureName.pascalCase()}}Page extends StatelessWidget {
     }
 
     if(state is {{featureName.pascalCase()}}Success) {
-      return _successBody(context, state.questionsList);
+      return _body(false, context, state.{{featureName.camelCase()}}List);
     }
 
     if(state is CreateOrUpdateOrDeleteSuccess) {
@@ -88,45 +86,44 @@ class {{featureName.pascalCase()}}Page extends StatelessWidget {
     return Container();
   }
 
-  _successBody(BuildContext context, List<{{featureName.pascalCase()}}Entity>? questionsList) {
-    if(questionsList != null) {
+  _body(bool isEmpty, BuildContext context, List<{{featureName.pascalCase()}}Entity>? {{featureName.camelCase()}}sList) {
       return Column(
           children:[
             Expanded(
-              child: ListView.builder(
-                  itemCount: questionsList.length,
+              child: isEmpty ? const EmptyIndicator() : ListView.builder(
+                  itemCount: {{featureName.camelCase()}}sList?.length,
                   itemBuilder: (context, index) {
                     return Card(
                         child: ListTile(
                           onTap: () {
-                            Nav.push(context, {{featureName.pascalCase()}}CreateOrUpdateQuestion(
-                              {{featureName.camelCase()}}Model: questionsList[index],
-                              onPressed: (questionModel) {
+                            Nav.push(context, {{featureName.pascalCase()}}CreateOrUpdate(
+                              {{featureName.camelCase()}}Model: {{featureName.camelCase()}}sList?[index],
+                              onPressed: ({{featureName.camelCase()}}Model) {
                                 BlocProvider.of<{{featureName.pascalCase()}}Bloc>(context).add(
-                                  Update{{featureName.pascalCase()}}Event(questionModel: questionModel)
+                                  Update{{featureName.pascalCase()}}Event({{featureName.camelCase()}}Model: {{featureName.camelCase()}}Model)
                                 );
                               },
-                              onDeletePressed: (questionId) {
+                              onDeletePressed: (id) {
                                 BlocProvider.of<{{featureName.pascalCase()}}Bloc>(context).add(
-                                    Delete{{featureName.pascalCase()}}Event(id: questionId ?? '')
+                                    Delete{{featureName.pascalCase()}}Event(id: id ?? '')
                                 );
                               },
                             ));
                           },
-                          title: Text(questionsList[index].question ?? '-'),
-                          subtitle: Text(questionsList[index].answers.toString() ?? '-'),
+                          title: Text({{featureName.camelCase()}}sList?[index].question ?? '-'),
+                          subtitle: Text({{featureName.camelCase()}}sList?[index].answers.toString() ?? '-'),
                         ));
                   }),
             ),
             Padding(
               padding: const EdgeInsets.only(top: 15, bottom: 15),
               child: ButtonCophat(
-                text: 'Criar nova pergunta',
+                text: 'Criar novo {{featureName.pascalCase()}}',
                 onPressed: () {
-                  Nav.push(context, {{featureName.pascalCase()}}CreateOrUpdateQuestion(
-                    onPressed: (questionModel) {
+                  Nav.push(context, {{featureName.pascalCase()}}CreateOrUpdate(
+                    onPressed: ({{featureName.camelCase()}}Model) {
                       BlocProvider.of<{{featureName.pascalCase()}}Bloc>(context).add(
-                          Create{{featureName.pascalCase()}}Event(questionModel: questionModel)
+                          Create{{featureName.pascalCase()}}Event({{featureName.camelCase()}}Model: {{featureName.camelCase()}}Model)
                       );
                     },
                   ));
@@ -134,8 +131,5 @@ class {{featureName.pascalCase()}}Page extends StatelessWidget {
               ),
             ),
           ]);
-    } else {
-      return Container();
-    }
   }
 }

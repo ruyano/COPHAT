@@ -26,7 +26,7 @@ class {{featureName.pascalCase()}}RemoteRepositoryImpl implements {{featureName.
         if(error is ServerException) {
           return Left(ServerFailure(message: error.message));
         } else {
-          return const Left(ServerFailure(message: 'Erro ao criar a questão.'));
+          return const Left(ServerFailure(message: 'Erro ao criar {{featureName.pascalCase()}}.'));
         }
       }
   }
@@ -40,7 +40,7 @@ class {{featureName.pascalCase()}}RemoteRepositoryImpl implements {{featureName.
       if(error is ServerException) {
         return Left(ServerFailure(message: error.message));
       } else {
-        return const Left(ServerFailure(message: 'Erro ao ler as questões.'));
+        return const Left(ServerFailure(message: 'Erro ao ler {{featureName.pascalCase()}}.'));
       }
     }
   }
@@ -56,7 +56,7 @@ class {{featureName.pascalCase()}}RemoteRepositoryImpl implements {{featureName.
         if(error is ServerException) {
           return Left(ServerFailure(message: error.message));
         } else {
-          return const Left(ServerFailure(message: 'Erro ao atualizar a questão.'));
+          return const Left(ServerFailure(message: 'Erro ao atualizar {{featureName.pascalCase()}}.'));
         }
     }
   }
@@ -72,7 +72,7 @@ class {{featureName.pascalCase()}}RemoteRepositoryImpl implements {{featureName.
         if(error is ServerException) {
           return Left(ServerFailure(message: error.message));
         } else {
-          return const Left(ServerFailure(message: 'Erro ao deletar a questão.'));
+          return const Left(ServerFailure(message: 'Erro ao deletar {{featureName.pascalCase()}}.'));
         }
       }
   }

@@ -12,8 +12,7 @@ class Delete{{featureName.pascalCase()}}UseCase implements UseCase<void, Delete{
 
   @override
   Future<Either<Failure, void>> call(Delete{{featureName.pascalCase()}}UseCaseParams params) async {
-    await remoteRepository.delete{{featureName.pascalCase()}}(params.id);
-    return right(null);
+    return await remoteRepository.delete{{featureName.pascalCase()}}(params.id);
   }
 }
 

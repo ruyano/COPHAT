@@ -2,11 +2,12 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cophat/child_questionnaire/presentation/presentation/child_questionnaire_page.dart';
 import 'package:cophat/core/nav.dart';
 import 'package:cophat/core/ui_components/button_cophat.dart';
-import 'package:cophat/family/presentation/presentation/family_page.dart';
+import 'package:cophat/user/presentation/presentation/user_page.dart';
 import 'package:flutter/material.dart';
 
 import '../guardian_questionnaire/presentation/presentation/guardian_questionnaire_page.dart';
 import '../main.dart';
+import '../patient/presentation/patient_list/presentation/patient_page.dart';
 
 class HomePage extends StatelessWidget {
 
@@ -42,6 +43,15 @@ class HomePage extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(top: 15, bottom: 15),
             child: ButtonCophat(
+              text: 'Gerenciar usuários',
+              onPressed: () {
+                Nav.push(context, const UserPage());
+              },
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 15),
+            child: ButtonCophat(
               text: 'Questionário do responsável',
               onPressed: () {
                 Nav.push(context, const GuardianQuestionnairePage());
@@ -60,9 +70,9 @@ class HomePage extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(bottom: 15),
             child: ButtonCophat(
-              text: 'Famílias',
+              text: 'Pacientes',
               onPressed: () {
-                Nav.push(context, const FamilyPage());
+                Nav.push(context, const PatientPage());
               },
             ),
           ),

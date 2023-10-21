@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../core/loading_indicator.dart';
+import '../../../patient/presentation/patient_list/presentation/patient_page.dart';
 import '../bloc/login_bloc.dart';
 import 'login_injection_container.dart' as di;
 
@@ -42,7 +43,7 @@ class LoginPage extends StatelessWidget {
       return const Center(child: LoadingIndicator());
     }
 
-    if(state is LoginSuccess) {
+    if(state is AdminLoginSuccess) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         Navigator.pushReplacement(
           context,
@@ -53,8 +54,19 @@ class LoginPage extends StatelessWidget {
       });
     }
 
+    if(state is LoginSuccess) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const PatientPage(),
+          ),
+        );
+      });
+    }
+
     if(state is LoginError) {
-      showError(context, state.message);
+      showError(context, state.message, shouldGoBack: false);
       return _loginInitialPage(context);
     }
 

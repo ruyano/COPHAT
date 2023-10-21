@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-void showError(BuildContext context, String message) {
+void showError(BuildContext context, String message, {bool shouldGoBack = true}) {
   WidgetsBinding.instance.addPostFrameCallback((_){
     showDialog(
       context: context,
@@ -13,7 +13,8 @@ void showError(BuildContext context, String message) {
             TextButton(
               child: const Text('OK'),
               onPressed: () {
-                Navigator.of(context).pop();
+                int count = 0;
+                Navigator.of(context).popUntil((_) => count++ >= (shouldGoBack ? 2 : 1));
               },
             ),
           ],

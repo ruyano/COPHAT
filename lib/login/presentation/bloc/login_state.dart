@@ -25,6 +25,14 @@ class LoginLoading extends LoginState {
   List<Object?> get props => [];
 }
 
+class AdminLoginSuccess extends LoginState {
+
+  const AdminLoginSuccess();
+
+  @override
+  List<Object?> get props => [];
+}
+
 class LoginSuccess extends LoginState {
 
   const LoginSuccess();

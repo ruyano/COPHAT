@@ -32,7 +32,7 @@ class _CophatDropdownMenuState extends State<CophatDropdownMenu> {
     return LayoutBuilder(
         builder: (context, constraints) {
           return SizedBox(
-            width: constraints.maxWidth,
+            width: constraints.maxWidth * .9,
             child: DropdownButtonFormField(
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),

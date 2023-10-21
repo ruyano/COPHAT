@@ -1,18 +1,18 @@
 import 'package:cophat/core/error/failure.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 import '../../../core/use_case.dart';
+import '../entities/login_entity.dart';
 import '../repositories/login_remote_repository.dart';
 
-class doLoginUseCase implements UseCase<UserCredential, DoLoginUseCaseParams> {
+class doLoginUseCase implements UseCase<LoginEntity, DoLoginUseCaseParams> {
   final LoginRemoteRepository remoteRepository;
 
   doLoginUseCase(this.remoteRepository);
 
   @override
-  Future<Either<ServerFailure, UserCredential>> call(
+  Future<Either<ServerFailure, LoginEntity>> call(
     DoLoginUseCaseParams params,
   ) async {
     return await remoteRepository.doLogin(

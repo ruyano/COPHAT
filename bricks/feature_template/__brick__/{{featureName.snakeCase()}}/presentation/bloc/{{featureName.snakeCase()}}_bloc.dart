@@ -42,7 +42,7 @@ class {{featureName.pascalCase()}}Bloc extends Bloc<{{featureName.pascalCase()}}
     emit(const {{featureName.pascalCase()}}Loading());
 
     final result = await _create{{featureName.pascalCase()}}UseCase(Create{{featureName.pascalCase()}}UseCaseParams(
-      {{featureName.camelCase()}}: event.questionModel
+      {{featureName.camelCase()}}: event.{{featureName.camelCase()}}Model
     ));
 
     result.fold(
@@ -69,7 +69,11 @@ class {{featureName.pascalCase()}}Bloc extends Bloc<{{featureName.pascalCase()}}
         emit({{featureName.pascalCase()}}Error(failure.message));
       },
           (content) async {
-        emit({{featureName.pascalCase()}}Success(questionsList: content));
+            if(content.isEmpty) {
+              emit(const {{featureName.pascalCase()}}Empty());
+            } else {
+              emit({{featureName.pascalCase()}}Success({{featureName.camelCase()}}List: content));
+            }
       },
     );
   }
@@ -81,7 +85,7 @@ class {{featureName.pascalCase()}}Bloc extends Bloc<{{featureName.pascalCase()}}
     emit(const {{featureName.pascalCase()}}Loading());
 
     final result = await _update{{featureName.pascalCase()}}UseCase(Update{{featureName.pascalCase()}}UseCaseParams(
-      {{featureName.camelCase()}}: event.questionModel
+      {{featureName.camelCase()}}: event.{{featureName.camelCase()}}Model
     ));
 
     result.fold(

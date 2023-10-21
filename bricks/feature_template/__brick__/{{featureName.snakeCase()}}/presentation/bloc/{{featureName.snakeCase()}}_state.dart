@@ -26,15 +26,15 @@ class {{featureName.pascalCase()}}Loading extends {{featureName.pascalCase()}}St
 
 class {{featureName.pascalCase()}}Success extends {{featureName.pascalCase()}}State {
 
-  final List<{{featureName.pascalCase()}}Entity>? questionsList;
+  final List<{{featureName.pascalCase()}}Entity>? {{featureName.camelCase()}}List;
 
   const {{featureName.pascalCase()}}Success({
-    this.questionsList
+    this.{{featureName.camelCase()}}List
   });
 
   @override
   List<Object?> get props => [
-    questionsList
+    {{featureName.camelCase()}}List
   ];
 }
 

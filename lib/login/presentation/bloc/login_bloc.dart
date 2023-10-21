@@ -32,7 +32,11 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         emit(LoginError(failure.message));
       },
           (content) async {
-        emit(const LoginSuccess());
+            if(content.userEntity?.isAdmin ?? false) {
+              emit(const AdminLoginSuccess());
+            } else {
+              emit(const LoginSuccess());
+            }
       },
     );
 

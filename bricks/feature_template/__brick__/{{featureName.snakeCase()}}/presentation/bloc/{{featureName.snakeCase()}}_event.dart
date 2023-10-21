@@ -10,15 +10,15 @@ abstract class {{featureName.pascalCase()}}Event extends Equatable {
 
 class Create{{featureName.pascalCase()}}Event extends {{featureName.pascalCase()}}Event {
 
-  final {{featureName.pascalCase()}}Model questionModel;
+  final {{featureName.pascalCase()}}Model {{featureName.camelCase()}}Model;
 
   const Create{{featureName.pascalCase()}}Event({
-    required this.questionModel,
+    required this.{{featureName.camelCase()}}Model,
   });
 
   @override
   List<Object?> get props => [
-    questionModel,
+      {{featureName.camelCase()}}Model,
   ];
 }
 
@@ -32,15 +32,15 @@ class Read{{featureName.pascalCase()}}Event extends {{featureName.pascalCase()}}
 
 class Update{{featureName.pascalCase()}}Event extends {{featureName.pascalCase()}}Event {
 
-  final {{featureName.pascalCase()}}Model questionModel;
+  final {{featureName.pascalCase()}}Model {{featureName.camelCase()}}Model;
 
   const Update{{featureName.pascalCase()}}Event({
-    required this.questionModel,
+    required this.{{featureName.camelCase()}}Model,
   });
 
   @override
   List<Object?> get props => [
-    questionModel,
+      {{featureName.camelCase()}}Model,
   ];
 }
 

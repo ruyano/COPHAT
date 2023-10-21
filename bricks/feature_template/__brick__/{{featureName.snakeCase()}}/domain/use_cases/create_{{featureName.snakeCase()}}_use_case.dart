@@ -13,8 +13,7 @@ class Create{{featureName.pascalCase()}}UseCase implements UseCase<void, Create{
 
   @override
   Future<Either<Failure, void>> call(Create{{featureName.pascalCase()}}UseCaseParams params) async {
-    await remoteRepository.create{{featureName.pascalCase()}}(params.{{featureName.camelCase()}});
-    return right(null);
+    return await remoteRepository.create{{featureName.pascalCase()}}(params.{{featureName.camelCase()}});
   }
 }
 

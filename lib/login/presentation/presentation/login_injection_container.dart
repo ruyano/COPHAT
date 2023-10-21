@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get_it/get_it.dart';
 
@@ -27,12 +28,19 @@ void init() {
 
   // Data sources
   sl.registerLazySingleton<LoginRemoteDataSource>(() =>
-    LoginRemoteDataSourceImpl(authInstance: sl()),
+    LoginRemoteDataSourceImpl(
+      firestoreInstance: sl(),
+      authInstance: sl(),
+    ),
   );
 
   // Core
 
   // External
+  if (!GetIt.I.isRegistered<FirebaseFirestore>()) {
+    GetIt.I.registerSingleton<FirebaseFirestore>(FirebaseFirestore.instance);
+  }
+
   if (!GetIt.I.isRegistered<FirebaseAuth>()) {
     GetIt.I.registerSingleton<FirebaseAuth>(FirebaseAuth.instance);
   }

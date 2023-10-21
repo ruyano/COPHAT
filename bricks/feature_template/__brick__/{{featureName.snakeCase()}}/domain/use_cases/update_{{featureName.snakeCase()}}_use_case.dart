@@ -13,8 +13,7 @@ class Update{{featureName.pascalCase()}}UseCase implements UseCase<void, Update{
 
   @override
   Future<Either<Failure, void>> call(Update{{featureName.pascalCase()}}UseCaseParams params) async {
-    await remoteRepository.update{{featureName.pascalCase()}}(params.{{featureName.camelCase()}});
-    return right(null);
+    return await remoteRepository.update{{featureName.pascalCase()}}(params.{{featureName.camelCase()}});
   }
 }
 
