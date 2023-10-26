@@ -44,7 +44,7 @@ class PatientCreateOrUpdate extends StatelessWidget {
     return AppBar(
       centerTitle: true,
       title: const AutoSizeText(
-        'Patient',
+        'Paciente',
         maxFontSize: 16.0,
         textScaleFactor: 1.0,
       ),
