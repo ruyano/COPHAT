@@ -3,6 +3,7 @@ import 'package:cophat/core/nav.dart';
 import 'package:cophat/child_questionnaire/data/models/child_questionnaire_model.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../core/question_type.dart';
 import '../../../../core/ui_components/button_cophat.dart';
 import '../../../../core/ui_components/cophat_dropdown_menu.dart';
 import '../../../domain/entities/child_questionnaire_entity.dart';
@@ -133,6 +134,8 @@ class ChildQuestionnaireCreateOrUpdateQuestion extends StatelessWidget {
                   padding: const EdgeInsets.only(
                       left: 15.0, right: 15.0, top: 15, bottom: 0),
                   child: CophatDropdownMenu(
+                    labelText: 'Tipo da questão',
+                    items: QuestionType.values.map((e) => e.label).toList(),
                     controller: _dropdownController..value = childQuestionnaireModel?.questionType ?? '',
                   ),
                 ),

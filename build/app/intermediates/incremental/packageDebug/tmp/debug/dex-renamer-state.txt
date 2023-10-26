@@ -1,4 +1,4 @@
-#Thu Oct 19 13:54:21 BRT 2023
+#Wed Oct 25 23:21:21 BRT 2023
 base.0=/Users/ruyano/Documents/TCC/COPHAT/build/app/intermediates/dex/debug/mergeDexDebug/classes.dex
 base.1=/Users/ruyano/Documents/TCC/COPHAT/build/app/intermediates/dex/debug/mergeDexDebug/classes2.dex
 base.2=/Users/ruyano/Documents/TCC/COPHAT/build/app/intermediates/dex/debug/mergeDexDebug/classes3.dex

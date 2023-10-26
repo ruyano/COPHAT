@@ -1,13 +1,15 @@
 import 'package:cophat/core/question_type.dart';
 import 'package:flutter/material.dart';
 
-List<String> list = QuestionType.values.map((e) => e.label).toList();
-
 class CophatDropdownMenu extends StatefulWidget {
 
+  final String labelText;
+  final List<String> items;
   final ValueNotifier<String?>? controller;
 
   const CophatDropdownMenu({
+    required this.labelText,
+    required this.items,
     this.controller,
     super.key
   });
@@ -34,9 +36,9 @@ class _CophatDropdownMenuState extends State<CophatDropdownMenu> {
           return SizedBox(
             width: constraints.maxWidth * .9,
             child: DropdownButtonFormField(
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: 'Tipo da questão'
+              decoration: InputDecoration(
+                border: const OutlineInputBorder(),
+                labelText: widget.labelText,
               ),
               value: dropdownValue,
               onChanged: (String? texto) {
@@ -46,7 +48,7 @@ class _CophatDropdownMenuState extends State<CophatDropdownMenu> {
                   dropdownValue = texto!;
                 });
               },
-              items: list.map<DropdownMenuItem<String>>((String value) {
+              items: widget.items.map<DropdownMenuItem<String>>((String value) {
                 return DropdownMenuItem<String>(
                     value: value,
                     child: Text(value)

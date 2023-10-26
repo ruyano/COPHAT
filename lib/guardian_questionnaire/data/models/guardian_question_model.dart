@@ -7,19 +7,25 @@ class GuardianQuestionModel extends GuardianQuestionEntity {
     String? question,
     String? questionType,
     List<String>? answers,
+    String? subQuestion,
+    List<String>? subAnswers,
   }) : super(
     id: id,
     question: question,
     questionType: questionType,
     answers: answers,
+    subQuestion: subQuestion,
+    subAnswers: subAnswers,
   );
 
   factory GuardianQuestionModel.fromJson(Map<String, dynamic> json) {
     return GuardianQuestionModel(
-        id: json['id'],
-        question: json['question'],
-        questionType: json['questionType'],
-        answers: json['answers'].cast<String>()
+      id: json['id'],
+      question: json['question'],
+      questionType: json['questionType'],
+      answers: json['answers'] != null ? json['answers'].cast<String>() : null,
+      subQuestion: json['subQuestion'],
+      subAnswers: json['subAnswers'] != null ? json['subAnswers'].cast<String>() : null,
     );
   }
 
@@ -29,6 +35,8 @@ class GuardianQuestionModel extends GuardianQuestionEntity {
     data['question'] = question;
     data['questionType'] = questionType;
     data['answers'] = answers;
+    data['subQuestion'] = subQuestion;
+    data['subAnswers'] = subAnswers;
     return data;
   }
 }

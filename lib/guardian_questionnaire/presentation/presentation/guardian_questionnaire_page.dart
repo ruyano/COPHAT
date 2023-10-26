@@ -1,12 +1,18 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cophat/core/nav.dart';
-import 'package:cophat/guardian_questionnaire/presentation/presentation/widgets/create_or_update_question.dart';
+import 'package:cophat/core/ui_components/question_card.dart';
+import 'package:cophat/core/ui_components/text_field_cophat.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/ui_components/button_cophat.dart';
+import '../../../core/empty_indicator.dart';
 import '../../../core/loading_indicator.dart';
 import '../../../core/show_error.dart';
+import '../../../core/ui_components/request_model/request_question_entity.dart';
+import '../../../core/ui_components/request_model/request_question_page.dart';
+import '../../../core/ui_components/request_model/request_sub_question_entity.dart';
+import '../../data/models/guardian_question_model.dart';
 import '../../domain/entities/guardian_question_entity.dart';
 import '../bloc/guardian_questionnaire_bloc.dart';
 import 'guardian_questionnaire_injection_container.dart' as di;
@@ -57,10 +63,7 @@ class GuardianQuestionnairePage extends StatelessWidget {
   _setupBody(BuildContext context, GuardianQuestionnaireState state) {
 
     if(state is GuardianQuestionnaireEmpty) {
-      //TODO - exibir tela para o estado de Empty
-      return Container(
-        color: Colors.purple,
-      );
+      return _body(true, context, null);
     }
 
     if(state is GuardianQuestionnaireLoading) {
@@ -68,7 +71,7 @@ class GuardianQuestionnairePage extends StatelessWidget {
     }
 
     if(state is GuardianQuestionnaireSuccess) {
-      return _successBody(context, state.questionsList);
+      return _body(false, context, state.questionsList);
     }
 
     if(state is CreateOrUpdateOrDeleteSuccess) {
@@ -79,63 +82,96 @@ class GuardianQuestionnairePage extends StatelessWidget {
     }
 
     if(state is GuardianQuestionnaireError) {
-      showError(context, state.message);
-      return Container(
-        color: Colors.red,
-      );
+      showError(context, state.message, shouldGoBack: true);
+      return Container();
     }
 
     return Container();
   }
 
-  _successBody(BuildContext context, List<GuardianQuestionEntity>? questionsList) {
-    if(questionsList != null) {
-      return Column(
-          children:[
-            Expanded(
-              child: ListView.builder(
-                  itemCount: questionsList.length,
-                  itemBuilder: (context, index) {
-                    return Card(
-                        child: ListTile(
-                          onTap: () {
-                            Nav.push(context, CreateOrUpdateQuestion(
-                              questionEntity: questionsList[index],
-                              onPressed: (questionModel) {
-                                BlocProvider.of<GuardianQuestionnaireBloc>(context).add(
-                                    UpdateGuardianQuestionEvent(questionModel: questionModel)
-                                );
-                              },
-                              onDeletePressed: (questionId) {
-                                BlocProvider.of<GuardianQuestionnaireBloc>(context).add(
-                                    DeleteGuardianQuestionEvent(id: questionId ?? '')
-                                );
-                              },
-                            ));
-                          },
-                          title: Text(questionsList[index].question ?? '-'),
-                          subtitle: Text(questionsList[index].answers.toString() ?? '-'),
-                        ));
-                  }),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 15, bottom: 15),
-              child: ButtonCophat(
-                text: 'Criar nova pergunta',
-                onPressed: () {
-                  Nav.push(context, CreateOrUpdateQuestion(
-                    onPressed: (questionModel) {
-                      BlocProvider.of<GuardianQuestionnaireBloc>(context).add(
-                          CreateGuardianQuestionEvent(questionModel: questionModel)
-                      );
-                    },
-                  ));
-                },
+  _body(bool isEmpty, BuildContext context, List<GuardianQuestionEntity>? questionsList) {
+    return LayoutBuilder(
+      builder: (context , constraints) {
+        return SizedBox(
+          width: constraints.maxWidth,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Expanded(
+                child: isEmpty ? const EmptyIndicator() : SizedBox(
+                  width: constraints.maxWidth * .9,
+                  child: ListView.builder(
+                      itemCount: questionsList?.length,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.only(top: 15),
+                          child: QuestionCard(
+                            question: questionsList?[index].question ?? '-',
+                            answers: questionsList?[index].answers ?? List.empty(),
+                            subQuestion: questionsList?[index].subQuestion,
+                            subAnswers: questionsList?[index].subAnswers,
+                            onTap: () {
+                              Nav.push(context, RequestQuestionPage(
+                                questionEntity: RequestQuestionEntity(
+                                  id: questionsList?[index].id,
+                                  question: questionsList?[index].question,
+                                  answers: questionsList?[index].answers,
+                                  questionType: questionsList?[index].questionType,
+                                  subQuestion: RequestSubQuestionEntity(
+                                    question: questionsList?[index].subQuestion,
+                                    answers: questionsList?[index].subAnswers,
+                                  ),
+                                ),
+                                onCreateOrUpdate: (questionEntity) {
+                                  BlocProvider.of<GuardianQuestionnaireBloc>(context).add(
+                                      UpdateGuardianQuestionEvent(questionModel: GuardianQuestionModel(
+                                        id: questionEntity?.id,
+                                        question: questionEntity?.question,
+                                        answers: questionEntity?.answers,
+                                        questionType: questionEntity?.questionType,
+                                        subQuestion: questionEntity?.subQuestion?.question,
+                                        subAnswers: questionEntity?.subQuestion?.answers,
+                                      ))
+                                  );
+                                },
+                                onDeletePressed: (questionId) {
+                                  BlocProvider.of<GuardianQuestionnaireBloc>(context).add(
+                                      DeleteGuardianQuestionEvent(id: questionId ?? '')
+                                  );
+                                },
+                              ));
+                            },
+                          ),
+                        );
+                      }),
+                ),
               ),
-            ),
-          ]);
-    } else {
-      return Container();
-    }
+              Padding(
+                padding: const EdgeInsets.only(top: 15, bottom: 15),
+                child: ButtonCophat(
+                  text: 'Criar nova pergunta',
+                  onPressed: () {
+                    Nav.push(context, RequestQuestionPage(
+                      onCreateOrUpdate: (questionEntity) {
+                        BlocProvider.of<GuardianQuestionnaireBloc>(context).add(
+                            CreateGuardianQuestionEvent(questionModel: GuardianQuestionModel(
+                              id: questionEntity?.id,
+                              question: questionEntity?.question,
+                              answers: questionEntity?.answers,
+                              questionType: questionEntity?.questionType,
+                              subQuestion: questionEntity?.subQuestion?.question,
+                              subAnswers: questionEntity?.subQuestion?.answers,
+                            ))
+                        );
+                      },
+                    ));
+                  },
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 }

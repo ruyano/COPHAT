@@ -69,7 +69,12 @@ class GuardianQuestionnaireBloc extends Bloc<GuardianQuestionnaireEvent, Guardia
         emit(GuardianQuestionnaireError(failure.message));
       },
           (content) async {
-        emit(GuardianQuestionnaireSuccess(questionsList: content));
+            if(content.isEmpty) {
+              emit(const GuardianQuestionnaireEmpty());
+            } else {
+              emit(GuardianQuestionnaireSuccess(questionsList: content));
+            }
+
       },
     );
   }

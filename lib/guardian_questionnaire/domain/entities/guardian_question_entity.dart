@@ -6,12 +6,16 @@ class GuardianQuestionEntity extends Equatable {
   final String? question;
   final String? questionType;
   final List<String>? answers;
+  final String? subQuestion;
+  final List<String>? subAnswers;
 
   GuardianQuestionEntity({
     this.id,
     this.question,
     this.questionType,
-    this.answers
+    this.answers,
+    this.subQuestion,
+    this.subAnswers,
   });
 
   @override
@@ -20,5 +24,7 @@ class GuardianQuestionEntity extends Equatable {
     question,
     questionType,
     answers,
+    subQuestion,
+    subAnswers,
   ];
 }
