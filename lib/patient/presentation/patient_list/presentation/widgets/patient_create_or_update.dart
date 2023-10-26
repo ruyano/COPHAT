@@ -22,13 +22,13 @@ class PatientCreateOrUpdate extends StatelessWidget {
     this.onDeletePressed,
   });
 
-  final _questionTextEditingController = TextEditingController();
-  final _answer1TextEditingController = TextEditingController();
-  final _answer2TextEditingController = TextEditingController();
-  final _answer3TextEditingController = TextEditingController();
-  final _answer4TextEditingController = TextEditingController();
-  final _answer5TextEditingController = TextEditingController();
-  final _dropdownController = ValueNotifier<String?>('');
+  final _patientsNameTextEditingController = TextEditingController();
+  final _mothersNameTextEditingController = TextEditingController();
+  final _mothersProfessionEditingController = TextEditingController();
+  final _fathersNameTextEditingController = TextEditingController();
+  final _fathersProfessionTextEditingController = TextEditingController();
+  final _maritalStatusTextEditingController = TextEditingController();
+  final _familyReligionTextEditingController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +61,7 @@ class PatientCreateOrUpdate extends StatelessWidget {
   _setupBody(BuildContext context) {
     return LayoutBuilder(
       builder: (context , constraints) {
-        return Container(
+        return SizedBox(
             width: constraints.maxWidth,
             child: Column(
               children: [
@@ -73,57 +73,56 @@ class PatientCreateOrUpdate extends StatelessWidget {
                           padding: const EdgeInsets.only(
                               left: 15.0, right: 15.0, top: 15, bottom: 0),
                           child: TextFieldCophat(
-                            labelText: 'Questão',
-                            controller: _questionTextEditingController..text = patientModel?.question ?? '',
+                            labelText: 'Nome do paciente:',
+                            controller: _patientsNameTextEditingController..text = patientModel?.patientsName ?? '',
                           ),
                         ),
                         Padding(
                           padding: const EdgeInsets.only(
                               left: 15.0, right: 15.0, top: 15, bottom: 0),
                           child: TextFieldCophat(
-                            labelText: 'Questão 1',
-                            controller: _answer1TextEditingController..text = _getAnswer(0),
+                            labelText: 'Nome da Mãe:',
+                            controller: _mothersNameTextEditingController..text = patientModel?.mothersName ?? '',
                           ),
                         ),
                         Padding(
                           padding: const EdgeInsets.only(
                               left: 15.0, right: 15.0, top: 15, bottom: 0),
                           child: TextFieldCophat(
-                            labelText: 'Questão 2',
-                            controller: _answer2TextEditingController..text = _getAnswer(1),
+                            labelText: 'Profissão da mãe:',
+                            controller: _mothersProfessionEditingController..text = patientModel?.mothersProfession ?? '',
                           ),
                         ),
                         Padding(
                           padding: const EdgeInsets.only(
                               left: 15.0, right: 15.0, top: 15, bottom: 0),
                           child: TextFieldCophat(
-                            labelText: 'Questão 3',
-                            controller: _answer3TextEditingController..text = _getAnswer(2),
+                            labelText: 'Nome do pai',
+                            controller: _fathersNameTextEditingController..text = patientModel?.fathersName ?? '',
                           ),
                         ),
                         Padding(
                           padding: const EdgeInsets.only(
                               left: 15.0, right: 15.0, top: 15, bottom: 0),
                           child: TextFieldCophat(
-                            labelText: 'Questão 4',
-                            controller: _answer4TextEditingController..text = _getAnswer(3),
+                            labelText: 'Profissão do pai:',
+                            controller: _fathersProfessionTextEditingController..text = patientModel?.fathersProfession ?? '',
                           ),
                         ),
                         Padding(
                           padding: const EdgeInsets.only(
                               left: 15.0, right: 15.0, top: 15, bottom: 0),
                           child: TextFieldCophat(
-                            labelText: 'Questão 5',
-                            controller: _answer5TextEditingController..text = _getAnswer(4),
+                            labelText: 'Estado civil dos pais:',
+                            controller: _maritalStatusTextEditingController..text = patientModel?.maritalStatus ?? '',
                           ),
                         ),
                         Padding(
                           padding: const EdgeInsets.only(
                               left: 15.0, right: 15.0, top: 15, bottom: 0),
-                          child: CophatDropdownMenu(
-                            labelText: 'Tipo da questão',
-                            items: QuestionType.values.map((e) => e.label).toList(),
-                            controller: _dropdownController..value = patientModel?.questionType ?? '',
+                          child: TextFieldCophat(
+                            labelText: 'Religião da família:',
+                            controller: _familyReligionTextEditingController..text = patientModel?.familyReligion ?? '',
                           ),
                         ),
                       ],
@@ -137,15 +136,26 @@ class PatientCreateOrUpdate extends StatelessWidget {
                     onPressed: () {
                       onPressed(PatientModel(
                         id: patientModel?.id,
-                        question: _questionTextEditingController.text,
-                        questionType: _dropdownController.value,
-                        answers: [
-                          _answer1TextEditingController.text,
-                          _answer2TextEditingController.text,
-                          _answer3TextEditingController.text,
-                          _answer4TextEditingController.text,
-                          _answer5TextEditingController.text,
-                        ],
+                        mothersName: _mothersNameTextEditingController.text,
+                        mothersProfession: _mothersProfessionEditingController.text,
+                        fathersName: _fathersNameTextEditingController.text,
+                        fathersProfession: _fathersProfessionTextEditingController.text,
+                        maritalStatus: _maritalStatusTextEditingController.text,
+                        familyReligion: _familyReligionTextEditingController.text,
+                        patientsName: _patientsNameTextEditingController.text,
+                        patientsBirthDate: DateTime.now(),
+                        ageOnTheDayOfTheInterview: 0,
+                        patientsGender: '',
+                        diagnosis: '',
+                        diagnosisTime: '',
+                        numberOfDaysHospitalized: 0,
+                        howManyHospitalizations: 0,
+                        education: '',
+                        attendingSchoolDuringHospitalization: true,
+                        residentInThisCity: true,
+                        housingNeighborhoodCityState: '',
+                        monthlyIncome: 0,
+                        levelOfEducationOfTheHeadOfTheFamily: '',
                       ));
                       Nav.pop(context);
                     },
@@ -167,16 +177,6 @@ class PatientCreateOrUpdate extends StatelessWidget {
             ),
         );
     });
-  }
-
-  _getAnswer(int position) {
-    int? length = patientModel?.answers?.length;
-
-    if(length != null && length > position) {
-      return patientModel?.answers?[position] ?? '';
-    }
-
-    return '';
   }
 
 }

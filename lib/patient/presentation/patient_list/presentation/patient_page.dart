@@ -110,8 +110,8 @@ class PatientPage extends StatelessWidget {
                               },
                             ));
                           },
-                          title: Text(patientsList?[index].question ?? '-'),
-                          subtitle: Text(patientsList?[index].answers.toString() ?? '-'),
+                          title: Text(patientsList?[index].patientsName ?? '-'),
+                          subtitle: Text(patientsList?[index].mothersName ?? '-'),
                         ));
                   }),
             ),
