@@ -59,7 +59,7 @@ class LoginPage extends StatelessWidget {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) => const PatientPage(),
+            builder: (context) => const PatientPage(isAdmin: false),
           ),
         );
       });

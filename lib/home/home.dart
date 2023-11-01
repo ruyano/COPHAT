@@ -72,7 +72,7 @@ class HomePage extends StatelessWidget {
             child: ButtonCophat(
               text: 'Pacientes',
               onPressed: () {
-                Nav.push(context, const PatientPage());
+                Nav.push(context, const PatientPage(isAdmin: true));
               },
             ),
           ),

@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cophat/core/nav.dart';
 import 'package:cophat/patient/presentation/patient_list/presentation/widgets/patient_create_or_update.dart';
+import 'package:cophat/patient/presentation/patient_list/presentation/widgets/patient_home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -8,13 +9,19 @@ import '../../../../core/empty_indicator.dart';
 import '../../../../core/loading_indicator.dart';
 import '../../../../core/show_error.dart';
 import '../../../../core/ui_components/button_cophat.dart';
+import '../../../../main.dart';
 import '../../../domain/entities/patient_entity.dart';
 import '../bloc/patient_bloc.dart';
 import 'patient_injection_container.dart' as di;
 
 class PatientPage extends StatelessWidget {
 
-  const PatientPage({super.key});
+  final bool isAdmin;
+
+  const PatientPage({
+    super.key,
+    this.isAdmin = false,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +55,7 @@ class PatientPage extends StatelessWidget {
       actions: <Widget>[
         IconButton(
           icon: const Icon(Icons.close),
-          onPressed: () => Navigator.of(context).pop(null),
+          onPressed: () => isAdmin ? Navigator.of(context).pop(null) : Nav.pushReplacement(context, const MyApp()),
         ),
       ],
       leading: Container(),
@@ -96,19 +103,21 @@ class PatientPage extends StatelessWidget {
                     return Card(
                         child: ListTile(
                           onTap: () {
-                            Nav.push(context, PatientCreateOrUpdate(
-                              patientModel: patientsList?[index],
-                              onPressed: (patientModel) {
-                                BlocProvider.of<PatientBloc>(context).add(
-                                  UpdatePatientEvent(patientModel: patientModel)
-                                );
-                              },
-                              onDeletePressed: (id) {
-                                BlocProvider.of<PatientBloc>(context).add(
-                                    DeletePatientEvent(id: id ?? '')
-                                );
-                              },
-                            ));
+                            if(patientsList?[index] != null) {
+                              Nav.push(context, PatientHomePage(
+                                patientModel: patientsList![index],
+                                onUpdatePatientsRegister: (patientModel) {
+                                  BlocProvider.of<PatientBloc>(context).add(
+                                      UpdatePatientEvent(patientModel: patientModel)
+                                  );
+                                },
+                                onDeletePatientsRegister: (id) {
+                                  BlocProvider.of<PatientBloc>(context).add(
+                                      DeletePatientEvent(id: id ?? '')
+                                  );
+                                },
+                              ));
+                            }
                           },
                           title: Text(patientsList?[index].patientsName ?? '-'),
                           subtitle: Text(patientsList?[index].mothersName ?? '-'),

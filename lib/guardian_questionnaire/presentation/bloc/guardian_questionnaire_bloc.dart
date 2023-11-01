@@ -34,6 +34,8 @@ class GuardianQuestionnaireBloc extends Bloc<GuardianQuestionnaireEvent, Guardia
     on<DeleteGuardianQuestionEvent>(_onDeleteGuardianQuestion);
   }
 
+  List<GuardianQuestionEntity>? questionsList;
+
   _onCreateGuardianQuestionnaire(
       CreateGuardianQuestionEvent event,
       Emitter<GuardianQuestionnaireState> emit,
@@ -42,7 +44,15 @@ class GuardianQuestionnaireBloc extends Bloc<GuardianQuestionnaireEvent, Guardia
     emit(const GuardianQuestionnaireLoading());
 
     final result = await _createGuardianQuestionUseCase(CreateGuardianQuestionUseCaseParams(
-        question: event.questionModel
+        question: GuardianQuestionModel(
+          id: event.questionModel.id,
+          question: event.questionModel.question,
+          questionType: event.questionModel.questionType,
+          answers: event.questionModel.answers,
+          subQuestion: event.questionModel.subQuestion,
+          subAnswers: event.questionModel.subAnswers,
+          position: questionsList?.length ?? 0,
+        )
     ));
 
     result.fold(
@@ -69,6 +79,7 @@ class GuardianQuestionnaireBloc extends Bloc<GuardianQuestionnaireEvent, Guardia
         emit(GuardianQuestionnaireError(failure.message));
       },
           (content) async {
+            questionsList = content;
             if(content.isEmpty) {
               emit(const GuardianQuestionnaireEmpty());
             } else {

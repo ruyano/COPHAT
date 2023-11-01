@@ -34,6 +34,8 @@ class ChildQuestionnaireBloc extends Bloc<ChildQuestionnaireEvent, ChildQuestion
     on<DeleteChildQuestionnaireEvent>(_onDeleteGuardianQuestion);
   }
 
+  List<ChildQuestionnaireEntity>? questionsList;
+
   _onCreateChildQuestionnaire(
       CreateChildQuestionnaireEvent event,
       Emitter<ChildQuestionnaireState> emit,
@@ -42,7 +44,15 @@ class ChildQuestionnaireBloc extends Bloc<ChildQuestionnaireEvent, ChildQuestion
     emit(const ChildQuestionnaireLoading());
 
     final result = await _createChildQuestionnaireUseCase(CreateChildQuestionnaireUseCaseParams(
-      childQuestionnaire: event.questionModel
+      childQuestionnaire: ChildQuestionnaireModel(
+        id: event.questionModel.id,
+        question: event.questionModel.question,
+        questionType: event.questionModel.questionType,
+        answers: event.questionModel.answers,
+        subQuestion: event.questionModel.subQuestion,
+        subAnswers: event.questionModel.subAnswers,
+        position: questionsList?.length ?? 0,
+      )
     ));
 
     result.fold(
@@ -69,7 +79,12 @@ class ChildQuestionnaireBloc extends Bloc<ChildQuestionnaireEvent, ChildQuestion
         emit(ChildQuestionnaireError(failure.message));
       },
           (content) async {
-        emit(ChildQuestionnaireSuccess(questionsList: content));
+            questionsList = content;
+            if(content.isEmpty) {
+              emit(const ChildQuestionnaireEmpty());
+            } else {
+              emit(ChildQuestionnaireSuccess(questionsList: content));
+            }
       },
     );
   }

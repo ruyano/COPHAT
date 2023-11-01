@@ -8,6 +8,7 @@ class ChildQuestionnaireEntity extends Equatable {
   final List<String>? answers;
   final String? subQuestion;
   final List<String>? subAnswers;
+  final int? position;
 
   ChildQuestionnaireEntity({
     this.id,
@@ -16,6 +17,7 @@ class ChildQuestionnaireEntity extends Equatable {
     this.answers,
     this.subQuestion,
     this.subAnswers,
+    this.position,
   });
 
   @override
@@ -26,5 +28,6 @@ class ChildQuestionnaireEntity extends Equatable {
     answers,
     subQuestion,
     subAnswers,
+    position,
   ];
 }

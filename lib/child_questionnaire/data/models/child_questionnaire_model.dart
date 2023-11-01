@@ -9,6 +9,7 @@ class ChildQuestionnaireModel extends ChildQuestionnaireEntity {
     List<String>? answers,
     String? subQuestion,
     List<String>? subAnswers,
+    int? position,
   }) : super(
     id: id,
     question: question,
@@ -16,6 +17,7 @@ class ChildQuestionnaireModel extends ChildQuestionnaireEntity {
     answers: answers,
     subQuestion: subQuestion,
     subAnswers: subAnswers,
+    position: position
   );
 
   factory ChildQuestionnaireModel.fromJson(Map<String, dynamic> json) {
@@ -26,6 +28,7 @@ class ChildQuestionnaireModel extends ChildQuestionnaireEntity {
       answers: json['answers']?.cast<String>(),
       subQuestion: json['subQuestion'],
       subAnswers: json['subAnswers']?.cast<String>(),
+      position: json['position'],
     );
   }
 
@@ -37,6 +40,7 @@ class ChildQuestionnaireModel extends ChildQuestionnaireEntity {
     data['answers'] = answers;
     data['subQuestion'] = subQuestion;
     data['subAnswers'] = subAnswers;
+    data['position'] = position;
     return data;
   }
 

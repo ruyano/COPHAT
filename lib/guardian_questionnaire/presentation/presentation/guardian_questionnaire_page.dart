@@ -1,7 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cophat/core/nav.dart';
 import 'package:cophat/core/ui_components/question_card.dart';
-import 'package:cophat/core/ui_components/text_field_cophat.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -9,9 +8,9 @@ import '../../../../core/ui_components/button_cophat.dart';
 import '../../../core/empty_indicator.dart';
 import '../../../core/loading_indicator.dart';
 import '../../../core/show_error.dart';
-import '../../../core/ui_components/request_model/request_question_entity.dart';
-import '../../../core/ui_components/request_model/request_question_page.dart';
-import '../../../core/ui_components/request_model/request_sub_question_entity.dart';
+import '../../../core/ui_components/questions/entities/question_entity.dart';
+import '../../../core/ui_components/questions/entities/sub_question_entity.dart';
+import '../../../core/ui_components/questions/question_form/request_question_page.dart';
 import '../../data/models/guardian_question_model.dart';
 import '../../domain/entities/guardian_question_entity.dart';
 import '../bloc/guardian_questionnaire_bloc.dart';
@@ -106,7 +105,7 @@ class GuardianQuestionnairePage extends StatelessWidget {
                         return Padding(
                           padding: const EdgeInsets.only(top: 15),
                           child: QuestionCard(
-                            question: questionsList?[index].question ?? '-',
+                            question: '${(questionsList?[index].position ?? 0) + 1} - ${questionsList?[index].question}',
                             answers: questionsList?[index].answers ?? List.empty(),
                             subQuestion: questionsList?[index].subQuestion,
                             subAnswers: questionsList?[index].subAnswers,

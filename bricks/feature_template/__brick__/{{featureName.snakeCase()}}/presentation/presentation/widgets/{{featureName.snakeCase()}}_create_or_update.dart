@@ -121,6 +121,8 @@ class {{featureName.pascalCase()}}CreateOrUpdate extends StatelessWidget {
                               left: 15.0, right: 15.0, top: 15, bottom: 0),
                           child: CophatDropdownMenu(
                             controller: _dropdownController..value = {{featureName.camelCase()}}Model?.questionType ?? '',
+                            labelText: '',
+                            items: [],
                           ),
                         ),
                       ],

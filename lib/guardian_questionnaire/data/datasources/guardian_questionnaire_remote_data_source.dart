@@ -35,6 +35,9 @@ class GuardianQuestionnaireRemoteDataSourceImpl implements GuardianQuestionnaire
     try {
       var result = await firestoreInstance.collection(_collectionName).get();
       var list = result.docs.map((e) => GuardianQuestionModel.fromJson(e.data())).toList();
+
+      list.sort((GuardianQuestionModel a, GuardianQuestionModel b) => a.position?.compareTo(b.position ?? 0) ?? 0);
+
       return list;
     } catch (e) {
         rethrow;

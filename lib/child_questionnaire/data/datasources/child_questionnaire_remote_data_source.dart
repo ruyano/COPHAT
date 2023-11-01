@@ -35,6 +35,7 @@ class ChildQuestionnaireRemoteDataSourceImpl implements ChildQuestionnaireRemote
     try {
       var result = await firestoreInstance.collection(_collectionName).get();
       var list = result.docs.map((e) => ChildQuestionnaireModel.fromJson(e.data())).toList();
+      list.sort((ChildQuestionnaireModel a, ChildQuestionnaireModel b) => a.position?.compareTo(b.position ?? 0) ?? 0);
       return list;
     } catch (e) {
       rethrow;

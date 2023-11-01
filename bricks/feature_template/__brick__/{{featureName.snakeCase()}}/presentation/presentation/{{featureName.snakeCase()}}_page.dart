@@ -87,49 +87,64 @@ class {{featureName.pascalCase()}}Page extends StatelessWidget {
   }
 
   _body(bool isEmpty, BuildContext context, List<{{featureName.pascalCase()}}Entity>? {{featureName.camelCase()}}sList) {
-      return Column(
-          children:[
-            Expanded(
-              child: isEmpty ? const EmptyIndicator() : ListView.builder(
-                  itemCount: {{featureName.camelCase()}}sList?.length,
-                  itemBuilder: (context, index) {
-                    return Card(
-                        child: ListTile(
-                          onTap: () {
-                            Nav.push(context, {{featureName.pascalCase()}}CreateOrUpdate(
-                              {{featureName.camelCase()}}Model: {{featureName.camelCase()}}sList?[index],
-                              onPressed: ({{featureName.camelCase()}}Model) {
-                                BlocProvider.of<{{featureName.pascalCase()}}Bloc>(context).add(
-                                  Update{{featureName.pascalCase()}}Event({{featureName.camelCase()}}Model: {{featureName.camelCase()}}Model)
-                                );
-                              },
-                              onDeletePressed: (id) {
-                                BlocProvider.of<{{featureName.pascalCase()}}Bloc>(context).add(
+    return LayoutBuilder(
+      builder: (context , constraints) {
+        return SizedBox(
+          width: constraints.maxWidth,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Expanded(
+                  child: isEmpty ? const EmptyIndicator() : SizedBox(
+                    width: constraints.maxWidth * .9,
+                    child: ListView.builder(
+                      itemCount: {{featureName.camelCase()}}sList?.length,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.only(top: 15),
+                          child: Card(
+                            child: ListTile(
+                            onTap: () {
+                              Nav.push(context, {{featureName.pascalCase()}}CreateOrUpdate(
+                                {{featureName.camelCase()}}Model: {{featureName.camelCase()}}sList?[index],
+                                  onPressed: ({{featureName.camelCase()}}Model) {
+                                    BlocProvider.of<{{featureName.pascalCase()}}Bloc>(context).add(
+                                      Update{{featureName.pascalCase()}}Event({{featureName.camelCase()}}Model: {{featureName.camelCase()}}Model)
+                                    );
+                                },
+                                onDeletePressed: (id) {
+                                  BlocProvider.of<{{featureName.pascalCase()}}Bloc>(context).add(
                                     Delete{{featureName.pascalCase()}}Event(id: id ?? '')
-                                );
-                              },
-                            ));
-                          },
-                          title: Text({{featureName.camelCase()}}sList?[index].question ?? '-'),
-                          subtitle: Text({{featureName.camelCase()}}sList?[index].answers.toString() ?? '-'),
-                        ));
-                  }),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 15, bottom: 15),
-              child: ButtonCophat(
-                text: 'Criar novo {{featureName.pascalCase()}}',
+                                  );
+                                  },
+                              ));
+                            },
+                            title: Text({{featureName.camelCase()}}sList?[index].question ?? '-'),
+                            subtitle: Text({{featureName.camelCase()}}sList?[index].answers.toString() ?? '-'),
+                          )),
+                        );
+                    }),
+                  ),
+                ),
+                Padding(
+                padding: const EdgeInsets.only(top: 15, bottom: 15),
+                child: ButtonCophat(
+                text: 'Criar nova pergunta',
                 onPressed: () {
-                  Nav.push(context, {{featureName.pascalCase()}}CreateOrUpdate(
-                    onPressed: ({{featureName.camelCase()}}Model) {
-                      BlocProvider.of<{{featureName.pascalCase()}}Bloc>(context).add(
-                          Create{{featureName.pascalCase()}}Event({{featureName.camelCase()}}Model: {{featureName.camelCase()}}Model)
-                      );
-                    },
-                  ));
+                Nav.push(context, {{featureName.pascalCase()}}CreateOrUpdate(
+                onPressed: ({{featureName.camelCase()}}Model) {
+                BlocProvider.of<{{featureName.pascalCase()}}Bloc>(context).add(
+                Create{{featureName.pascalCase()}}Event({{featureName.camelCase()}}Model: {{featureName.camelCase()}}Model)
+                );
                 },
-              ),
-            ),
-          ]);
+                ));
+                },
+                ),
+                ),
+              ],
+          ),
+        );
+      },
+    );
   }
 }
