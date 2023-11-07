@@ -2,19 +2,21 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cophat/core/ui_components/text_field_cophat.dart';
 import 'package:flutter/material.dart';
 
+import '../../../answer_type.dart';
+import '../../../models/sub_question_model.dart';
 import '../../../nav.dart';
 import '../../button_cophat.dart';
-import '../entities/sub_question_entity.dart';
+import '../../cophat_dropdown_menu.dart';
 
 class RequestSubQuestionPage extends StatefulWidget {
 
-  final RequestSubQuestionEntity? subQuestionEntity;
-  final void Function(RequestSubQuestionEntity? subQuestionEntity) onCreateOrUpdate;
+  final SubQuestionModel? subQuestionModel;
+  final void Function(SubQuestionModel? subQuestionModel) onCreateOrUpdate;
   final void Function()? onDeletePressed;
 
   const RequestSubQuestionPage({
     super.key,
-    this.subQuestionEntity,
+    this.subQuestionModel,
     required this.onCreateOrUpdate,
     this.onDeletePressed,
   });
@@ -28,6 +30,7 @@ class _RequestSubQuestionPageState extends State<RequestSubQuestionPage> {
 
   final  _answersControllers = <TextEditingController>[];
   final _questionTextEditingController = TextEditingController();
+  final _answerTypeDropdownController = ValueNotifier<String?>('');
 
   String? _question;
   List<String> _answers = <String>[];
@@ -35,13 +38,13 @@ class _RequestSubQuestionPageState extends State<RequestSubQuestionPage> {
   @override
   Widget build(BuildContext context) {
 
-    if(_question == null && widget.subQuestionEntity?.question != null) {
-      _question = widget.subQuestionEntity?.question;
+    if(_question == null && widget.subQuestionModel?.question != null) {
+      _question = widget.subQuestionModel?.question;
       _questionTextEditingController.text = _question ?? '';
     }
 
-    if(_answers.isEmpty && widget.subQuestionEntity?.answers != null && widget.subQuestionEntity!.answers!.isNotEmpty) {
-      _answers.addAll(widget.subQuestionEntity!.answers!);
+    if(_answers.isEmpty && widget.subQuestionModel?.answers != null && widget.subQuestionModel!.answers!.isNotEmpty) {
+      _answers.addAll(widget.subQuestionModel!.answers!);
     }
 
     if(_answers.isEmpty) {
@@ -112,6 +115,14 @@ class _RequestSubQuestionPageState extends State<RequestSubQuestionPage> {
                       ..._listOfAnswers(answersAmount),
                       Padding(
                         padding: const EdgeInsets.only(top: 15),
+                        child: CophatDropdownMenu(
+                          labelText: 'Tipo da resposta',
+                          items: AnswerType.values.map((e) => e.label).toList(),
+                          controller: _answerTypeDropdownController..value = widget.subQuestionModel?.answerType ?? '',
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 15),
                         child: ButtonCophat(
                             text: 'Add',
                             onPressed: () {
@@ -138,17 +149,18 @@ class _RequestSubQuestionPageState extends State<RequestSubQuestionPage> {
               Padding(
                 padding: const EdgeInsets.only(top: 15, bottom: 15),
                 child: ButtonCophat(
-                  text: widget.subQuestionEntity == null ? 'Criar' : 'Atualizar',
+                  text: widget.subQuestionModel == null ? 'Criar' : 'Atualizar',
                   onPressed: () {
-                    widget.onCreateOrUpdate(RequestSubQuestionEntity(
+                    widget.onCreateOrUpdate(SubQuestionModel(
                       question: _questionTextEditingController.text,
                       answers: _answersControllers.map((e) => e.text).toList(),
+                      answerType: _answerTypeDropdownController.value
                     ));
                     Nav.pop(context);
                   },
                 ),
               ),
-              widget.subQuestionEntity == null ? Container() : Padding(
+              widget.subQuestionModel == null ? Container() : Padding(
                 padding: const EdgeInsets.only(bottom: 15),
                 child: ButtonCophat(
                   text: 'Deletar',

@@ -6,13 +6,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/ui_components/button_cophat.dart';
 import '../../../core/empty_indicator.dart';
+import '../../../core/entities/question_entity.dart';
 import '../../../core/loading_indicator.dart';
+import '../../../core/models/question_model.dart';
 import '../../../core/show_error.dart';
-import '../../../core/ui_components/questions/entities/question_entity.dart';
-import '../../../core/ui_components/questions/entities/sub_question_entity.dart';
 import '../../../core/ui_components/questions/question_form/request_question_page.dart';
-import '../../data/models/guardian_question_model.dart';
-import '../../domain/entities/guardian_question_entity.dart';
 import '../bloc/guardian_questionnaire_bloc.dart';
 import 'guardian_questionnaire_injection_container.dart' as di;
 
@@ -88,7 +86,7 @@ class GuardianQuestionnairePage extends StatelessWidget {
     return Container();
   }
 
-  _body(bool isEmpty, BuildContext context, List<GuardianQuestionEntity>? questionsList) {
+  _body(bool isEmpty, BuildContext context, List<QuestionEntity>? questionsList) {
     return LayoutBuilder(
       builder: (context , constraints) {
         return SizedBox(
@@ -107,30 +105,14 @@ class GuardianQuestionnairePage extends StatelessWidget {
                           child: QuestionCard(
                             question: '${(questionsList?[index].position ?? 0) + 1} - ${questionsList?[index].question}',
                             answers: questionsList?[index].answers ?? List.empty(),
-                            subQuestion: questionsList?[index].subQuestion,
-                            subAnswers: questionsList?[index].subAnswers,
+                            subQuestion: questionsList?[index].subQuestion?.question,
+                            subAnswers: questionsList?[index].subQuestion?.answers,
                             onTap: () {
                               Nav.push(context, RequestQuestionPage(
-                                questionEntity: RequestQuestionEntity(
-                                  id: questionsList?[index].id,
-                                  question: questionsList?[index].question,
-                                  answers: questionsList?[index].answers,
-                                  questionType: questionsList?[index].questionType,
-                                  subQuestion: RequestSubQuestionEntity(
-                                    question: questionsList?[index].subQuestion,
-                                    answers: questionsList?[index].subAnswers,
-                                  ),
-                                ),
+                                questionModel: questionsList?[index] as QuestionModel,
                                 onCreateOrUpdate: (questionEntity) {
                                   BlocProvider.of<GuardianQuestionnaireBloc>(context).add(
-                                      UpdateGuardianQuestionEvent(questionModel: GuardianQuestionModel(
-                                        id: questionEntity?.id,
-                                        question: questionEntity?.question,
-                                        answers: questionEntity?.answers,
-                                        questionType: questionEntity?.questionType,
-                                        subQuestion: questionEntity?.subQuestion?.question,
-                                        subAnswers: questionEntity?.subQuestion?.answers,
-                                      ))
+                                      UpdateGuardianQuestionEvent(questionModel: questionsList?[index] as QuestionModel)
                                   );
                                 },
                                 onDeletePressed: (questionId) {
@@ -151,16 +133,9 @@ class GuardianQuestionnairePage extends StatelessWidget {
                   text: 'Criar nova pergunta',
                   onPressed: () {
                     Nav.push(context, RequestQuestionPage(
-                      onCreateOrUpdate: (questionEntity) {
+                      onCreateOrUpdate: (questionModel) {
                         BlocProvider.of<GuardianQuestionnaireBloc>(context).add(
-                            CreateGuardianQuestionEvent(questionModel: GuardianQuestionModel(
-                              id: questionEntity?.id,
-                              question: questionEntity?.question,
-                              answers: questionEntity?.answers,
-                              questionType: questionEntity?.questionType,
-                              subQuestion: questionEntity?.subQuestion?.question,
-                              subAnswers: questionEntity?.subQuestion?.answers,
-                            ))
+                            CreateGuardianQuestionEvent(questionModel: questionModel)
                         );
                       },
                     ));

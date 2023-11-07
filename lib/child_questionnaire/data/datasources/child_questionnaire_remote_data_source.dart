@@ -1,11 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import '../models/child_questionnaire_model.dart';
+import '../../../core/models/question_model.dart';
 
 abstract class ChildQuestionnaireRemoteDataSource {
   //CRUD
-  Future createChildQuestionnaire(ChildQuestionnaireModel model);
-  Future<List<ChildQuestionnaireModel>> readChildQuestionnaires();
-  Future updateChildQuestionnaire(ChildQuestionnaireModel model);
+  Future createChildQuestionnaire(QuestionModel model);
+  Future<List<QuestionModel>> readChildQuestionnaires();
+  Future updateChildQuestionnaire(QuestionModel model);
   Future deleteChildQuestionnaire(String id);
 }
 
@@ -20,7 +20,7 @@ class ChildQuestionnaireRemoteDataSourceImpl implements ChildQuestionnaireRemote
   });
 
   @override
-  Future createChildQuestionnaire(ChildQuestionnaireModel question) async {
+  Future createChildQuestionnaire(QuestionModel question) async {
     try {
       var doc = firestoreInstance.collection(_collectionName).doc();
       question.id = doc.id;
@@ -31,11 +31,11 @@ class ChildQuestionnaireRemoteDataSourceImpl implements ChildQuestionnaireRemote
   }
 
   @override
-  Future<List<ChildQuestionnaireModel>> readChildQuestionnaires() async {
+  Future<List<QuestionModel>> readChildQuestionnaires() async {
     try {
       var result = await firestoreInstance.collection(_collectionName).get();
-      var list = result.docs.map((e) => ChildQuestionnaireModel.fromJson(e.data())).toList();
-      list.sort((ChildQuestionnaireModel a, ChildQuestionnaireModel b) => a.position?.compareTo(b.position ?? 0) ?? 0);
+      var list = result.docs.map((e) => QuestionModel.fromJson(e.data())).toList();
+      list.sort((QuestionModel a, QuestionModel b) => a.position?.compareTo(b.position ?? 0) ?? 0);
       return list;
     } catch (e) {
       rethrow;
@@ -43,7 +43,7 @@ class ChildQuestionnaireRemoteDataSourceImpl implements ChildQuestionnaireRemote
   }
 
   @override
-  Future updateChildQuestionnaire(ChildQuestionnaireModel model) async {
+  Future updateChildQuestionnaire(QuestionModel model) async {
     try {
       var doc = firestoreInstance.collection(_collectionName).doc(model.id);
       await doc.update(model.toJson());

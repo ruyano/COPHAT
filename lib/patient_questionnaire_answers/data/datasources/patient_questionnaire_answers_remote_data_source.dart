@@ -1,12 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cophat/core/models/answers_model.dart';
 import '../../../core/error/exceptions.dart';
-import '../models/patient_questionnaire_answers_model.dart';
 
 abstract class PatientQuestionnaireAnswersRemoteDataSource {
   //CRUD
-  Future createPatientQuestionnaireAnswers(PatientQuestionnaireAnswersModel model);
-  Future<List<PatientQuestionnaireAnswersModel>> readPatientQuestionnaireAnswerss();
-  Future updatePatientQuestionnaireAnswers(PatientQuestionnaireAnswersModel model);
+  Future createPatientQuestionnaireAnswers(AnswersModel model);
+  Future<List<AnswersModel>> readPatientQuestionnaireAnswerss();
+  Future updatePatientQuestionnaireAnswers(AnswersModel model);
   Future deletePatientQuestionnaireAnswers(String id);
 }
 
@@ -21,11 +21,11 @@ class PatientQuestionnaireAnswersRemoteDataSourceImpl implements PatientQuestion
   });
 
   @override
-  Future createPatientQuestionnaireAnswers(PatientQuestionnaireAnswersModel question) async {
+  Future createPatientQuestionnaireAnswers(AnswersModel answers) async {
     try {
       var doc = firestoreInstance.collection(_collectionName).doc();
-      question.id = doc.id;
-      await doc.set(question.toJson());
+      answers.id = doc.id;
+      await doc.set(answers.toJson());
     } catch (e) {
       if(e is FirebaseException) {
         throw ServerException(message: e.message ?? '-');
@@ -35,10 +35,10 @@ class PatientQuestionnaireAnswersRemoteDataSourceImpl implements PatientQuestion
   }
 
   @override
-  Future<List<PatientQuestionnaireAnswersModel>> readPatientQuestionnaireAnswerss() async {
+  Future<List<AnswersModel>> readPatientQuestionnaireAnswerss() async {
     try {
       var result = await firestoreInstance.collection(_collectionName).get();
-      var list = result.docs.map((e) => PatientQuestionnaireAnswersModel.fromJson(e.data())).toList();
+      var list = result.docs.map((e) => AnswersModel.fromJson(e.data())).toList();
       return list;
     } catch (e) {
       if(e is FirebaseException) {
@@ -49,7 +49,7 @@ class PatientQuestionnaireAnswersRemoteDataSourceImpl implements PatientQuestion
   }
 
   @override
-  Future updatePatientQuestionnaireAnswers(PatientQuestionnaireAnswersModel model) async {
+  Future updatePatientQuestionnaireAnswers(AnswersModel model) async {
     try {
       var doc = firestoreInstance.collection(_collectionName).doc(model.id);
       await doc.update(model.toJson());

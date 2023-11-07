@@ -26,7 +26,7 @@ class ChildQuestionnaireLoading extends ChildQuestionnaireState {
 
 class ChildQuestionnaireSuccess extends ChildQuestionnaireState {
 
-  final List<ChildQuestionnaireEntity>? questionsList;
+  final List<QuestionEntity>? questionsList;
 
   const ChildQuestionnaireSuccess({
     this.questionsList

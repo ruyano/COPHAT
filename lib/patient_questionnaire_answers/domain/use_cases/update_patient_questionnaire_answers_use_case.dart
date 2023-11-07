@@ -1,8 +1,8 @@
 import 'package:cophat/core/error/failure.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
+import '../../../core/models/answers_model.dart';
 import '../../../core/use_case.dart';
-import '../../data/models/patient_questionnaire_answers_model.dart';
 import '../repositories/patient_questionnaire_answers_remote_repository.dart';
 
 class UpdatePatientQuestionnaireAnswersUseCase implements UseCase<void, UpdatePatientQuestionnaireAnswersUseCaseParams> {
@@ -19,7 +19,7 @@ class UpdatePatientQuestionnaireAnswersUseCase implements UseCase<void, UpdatePa
 
 class UpdatePatientQuestionnaireAnswersUseCaseParams extends Equatable {
 
-  final PatientQuestionnaireAnswersModel patientQuestionnaireAnswers;
+  final AnswersModel patientQuestionnaireAnswers;
 
   const UpdatePatientQuestionnaireAnswersUseCaseParams({
     required this.patientQuestionnaireAnswers,

@@ -26,7 +26,7 @@ class PatientQuestionnaireAnswersLoading extends PatientQuestionnaireAnswersStat
 
 class PatientQuestionnaireAnswersSuccess extends PatientQuestionnaireAnswersState {
 
-  final List<PatientQuestionnaireAnswersEntity>? patientQuestionnaireAnswersList;
+  final List<AnswersModel>? patientQuestionnaireAnswersList;
 
   const PatientQuestionnaireAnswersSuccess({
     this.patientQuestionnaireAnswersList
@@ -60,7 +60,7 @@ class PatientQuestionnaireAnswersError extends PatientQuestionnaireAnswersState 
 
 class ChildQuestionnaireSuccess extends PatientQuestionnaireAnswersState {
 
-  final List<ChildQuestionnaireEntity>? questionsList;
+  final List<QuestionModel>? questionsList;
 
   const ChildQuestionnaireSuccess({
     this.questionsList

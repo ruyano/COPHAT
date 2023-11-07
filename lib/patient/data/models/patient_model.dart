@@ -58,7 +58,7 @@ class PatientModel extends PatientEntity {
       maritalStatus: json['maritalStatus'],
       familyReligion: json['familyReligion'],
       patientsName: json['patientsName'],
-      patientsBirthDate:  json['patientsBirthDate'].toDate(),
+      patientsBirthDate: json['patientsBirthDate']?.toDate(),
       ageOnTheDayOfTheInterview: json['ageOnTheDayOfTheInterview'],
       patientsGender: json['patientsGender'],
       diagnosis: json['diagnosis'],

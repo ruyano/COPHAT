@@ -1,8 +1,8 @@
-import 'package:cophat/guardian_questionnaire/data/models/guardian_question_model.dart';
-import 'package:cophat/guardian_questionnaire/domain/entities/guardian_question_entity.dart';
 import 'package:dartz/dartz.dart';
+import '../../../core/entities/question_entity.dart';
 import '../../../core/error/exceptions.dart';
 import '../../../core/error/failure.dart';
+import '../../../core/models/question_model.dart';
 import '../../domain/repositories/guardian_questionnaire_remote_repository.dart';
 import '../datasources/guardian_questionnaire_remote_data_source.dart';
 
@@ -16,7 +16,7 @@ class GuardianQuestionnaireRemoteRepositoryImpl implements GuardianQuestionnaire
 
   @override
   Future<Either<ServerFailure, void>> createQuestion(
-      GuardianQuestionModel question,
+      QuestionModel question,
       ) async {
     try {
       await remoteDataSource.createQuestion(question);
@@ -31,7 +31,7 @@ class GuardianQuestionnaireRemoteRepositoryImpl implements GuardianQuestionnaire
   }
 
   @override
-  Future<Either<ServerFailure, List<GuardianQuestionEntity>>> readQuestions() async {
+  Future<Either<ServerFailure, List<QuestionEntity>>> readQuestions() async {
     try {
       final result = await remoteDataSource.readQuestions();
       return Right(result);
@@ -46,7 +46,7 @@ class GuardianQuestionnaireRemoteRepositoryImpl implements GuardianQuestionnaire
 
   @override
   Future<Either<ServerFailure, void>> updateQuestion(
-      GuardianQuestionModel question,
+      QuestionModel question,
       ) async {
     try {
       await remoteDataSource.updateQuestion(question);

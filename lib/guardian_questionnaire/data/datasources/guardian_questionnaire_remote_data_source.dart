@@ -1,11 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import '../models/guardian_question_model.dart';
+import '../../../core/models/question_model.dart';
 
 abstract class GuardianQuestionnaireRemoteDataSource {
   //CRUD
-  Future createQuestion(GuardianQuestionModel model);
-  Future<List<GuardianQuestionModel>> readQuestions();
-  Future updateQuestion(GuardianQuestionModel model);
+  Future createQuestion(QuestionModel model);
+  Future<List<QuestionModel>> readQuestions();
+  Future updateQuestion(QuestionModel model);
   Future deleteQuestion(String id);
 }
 
@@ -20,7 +20,7 @@ class GuardianQuestionnaireRemoteDataSourceImpl implements GuardianQuestionnaire
   });
 
   @override
-  Future createQuestion(GuardianQuestionModel question) async {
+  Future createQuestion(QuestionModel question) async {
     try {
       var doc = firestoreInstance.collection(_collectionName).doc();
       question.id = doc.id;
@@ -31,12 +31,12 @@ class GuardianQuestionnaireRemoteDataSourceImpl implements GuardianQuestionnaire
   }
 
   @override
-  Future<List<GuardianQuestionModel>> readQuestions() async {
+  Future<List<QuestionModel>> readQuestions() async {
     try {
       var result = await firestoreInstance.collection(_collectionName).get();
-      var list = result.docs.map((e) => GuardianQuestionModel.fromJson(e.data())).toList();
+      var list = result.docs.map((e) => QuestionModel.fromJson(e.data())).toList();
 
-      list.sort((GuardianQuestionModel a, GuardianQuestionModel b) => a.position?.compareTo(b.position ?? 0) ?? 0);
+      list.sort((QuestionModel a, QuestionModel b) => a.position?.compareTo(b.position ?? 0) ?? 0);
 
       return list;
     } catch (e) {
@@ -45,7 +45,7 @@ class GuardianQuestionnaireRemoteDataSourceImpl implements GuardianQuestionnaire
   }
 
   @override
-  Future updateQuestion(GuardianQuestionModel model) async {
+  Future updateQuestion(QuestionModel model) async {
     try {
       var doc = firestoreInstance.collection(_collectionName).doc(model.id);
       await doc.update(model.toJson());

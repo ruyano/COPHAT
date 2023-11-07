@@ -1,18 +1,17 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:cophat/core/models/sub_question_model.dart';
 import 'package:cophat/core/nav.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/ui_components/button_cophat.dart';
 import '../../../core/empty_indicator.dart';
+import '../../../core/entities/question_entity.dart';
 import '../../../core/loading_indicator.dart';
+import '../../../core/models/question_model.dart';
 import '../../../core/show_error.dart';
 import '../../../core/ui_components/question_card.dart';
-import '../../../core/ui_components/questions/entities/question_entity.dart';
-import '../../../core/ui_components/questions/entities/sub_question_entity.dart';
 import '../../../core/ui_components/questions/question_form/request_question_page.dart';
-import '../../data/models/child_questionnaire_model.dart';
-import '../../domain/entities/child_questionnaire_entity.dart';
 import '../bloc/child_questionnaire_bloc.dart';
 import 'child_questionnaire_injection_container.dart' as di;
 
@@ -90,7 +89,7 @@ class ChildQuestionnairePage extends StatelessWidget {
     return Container();
   }
 
-  _body(bool isEmpty, BuildContext context, List<ChildQuestionnaireEntity>? questionsList) {
+  _body(bool isEmpty, BuildContext context, List<QuestionEntity>? questionsList) {
     return LayoutBuilder(
       builder: (context , constraints) {
         return SizedBox(
@@ -109,30 +108,14 @@ class ChildQuestionnairePage extends StatelessWidget {
                           child: QuestionCard(
                             question: questionsList?[index].question ?? '-',
                             answers: questionsList?[index].answers ?? List.empty(),
-                            subQuestion: questionsList?[index].subQuestion,
-                            subAnswers: questionsList?[index].subAnswers,
+                            subQuestion: questionsList?[index].subQuestion?.question,
+                            subAnswers: questionsList?[index].subQuestion?.answers,
                             onTap: () {
                               Nav.push(context, RequestQuestionPage(
-                                questionEntity: RequestQuestionEntity(
-                                  id: questionsList?[index].id,
-                                  question: questionsList?[index].question,
-                                  answers: questionsList?[index].answers,
-                                  questionType: questionsList?[index].questionType,
-                                  subQuestion: RequestSubQuestionEntity(
-                                    question: questionsList?[index].subQuestion,
-                                    answers: questionsList?[index].subAnswers,
-                                  ),
-                                ),
+                                questionModel: questionsList?[index] as QuestionModel,
                                 onCreateOrUpdate: (questionEntity) {
                                   BlocProvider.of<ChildQuestionnaireBloc>(context).add(
-                                      UpdateChildQuestionnaireEvent(questionModel: ChildQuestionnaireModel(
-                                        id: questionEntity?.id,
-                                        question: questionEntity?.question,
-                                        answers: questionEntity?.answers,
-                                        questionType: questionEntity?.questionType,
-                                        subQuestion: questionEntity?.subQuestion?.question,
-                                        subAnswers: questionEntity?.subQuestion?.answers,
-                                      ))
+                                      UpdateChildQuestionnaireEvent(questionModel: questionEntity as QuestionModel)
                                   );
                                 },
                                 onDeletePressed: (questionId) {
@@ -153,16 +136,9 @@ class ChildQuestionnairePage extends StatelessWidget {
                   text: 'Criar nova pergunta',
                   onPressed: () {
                     Nav.push(context, RequestQuestionPage(
-                      onCreateOrUpdate: (questionEntity) {
+                      onCreateOrUpdate: (questionModel) {
                         BlocProvider.of<ChildQuestionnaireBloc>(context).add(
-                            CreateChildQuestionnaireEvent(questionModel: ChildQuestionnaireModel(
-                              id: questionEntity?.id,
-                              question: questionEntity?.question,
-                              answers: questionEntity?.answers,
-                              questionType: questionEntity?.questionType,
-                              subQuestion: questionEntity?.subQuestion?.question,
-                              subAnswers: questionEntity?.subQuestion?.answers,
-                            ))
+                            CreateChildQuestionnaireEvent(questionModel: questionModel)
                         );
                       },
                     ));

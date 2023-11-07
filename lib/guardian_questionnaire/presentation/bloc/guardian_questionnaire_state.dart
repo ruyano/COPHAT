@@ -26,7 +26,7 @@ class GuardianQuestionnaireLoading extends GuardianQuestionnaireState {
 
 class GuardianQuestionnaireSuccess extends GuardianQuestionnaireState {
 
-  final List<GuardianQuestionEntity>? questionsList;
+  final List<QuestionEntity>? questionsList;
 
   const GuardianQuestionnaireSuccess({
     this.questionsList

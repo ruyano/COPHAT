@@ -1,27 +1,28 @@
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:cophat/core/ui_components/questions/entities/question_entity.dart';
+import 'package:cophat/core/answer_type.dart';
 import 'package:cophat/core/ui_components/questions/question_form/request_sub_question_page.dart';
 import 'package:cophat/core/ui_components/text_field_cophat.dart';
 import 'package:flutter/material.dart';
 
+import '../../../models/question_model.dart';
+import '../../../models/sub_question_model.dart';
 import '../../../nav.dart';
 import '../../../question_type.dart';
 import '../../button_cophat.dart';
 import '../../cophat_dropdown_menu.dart';
 import '../../question_card.dart';
-import '../entities/sub_question_entity.dart';
 
 class RequestQuestionPage extends StatefulWidget {
 
   final String? pageTitle;
-  final RequestQuestionEntity? questionEntity;
-  final void Function(RequestQuestionEntity? questionEntity) onCreateOrUpdate;
-  final void Function(String? questionId)? onDeletePressed;
+  final QuestionModel? questionModel;
+  final void Function(QuestionModel questionModel) onCreateOrUpdate;
+  final void Function(String questionId)? onDeletePressed;
 
   const RequestQuestionPage({
     super.key,
     this.pageTitle,
-    this.questionEntity,
+    this.questionModel,
     required this.onCreateOrUpdate,
     this.onDeletePressed,
   });
@@ -35,26 +36,27 @@ class _RequestQuestionPageState extends State<RequestQuestionPage> {
 
   final _answersControllers = <TextEditingController>[];
   final _questionTextEditingController = TextEditingController();
-  final _dropdownController = ValueNotifier<String?>('');
+  final _questionTypeDropdownController = ValueNotifier<String?>('');
+  final _answerTypeDropdownController = ValueNotifier<String?>('');
 
   String? _question;
   List<String> _answers = <String>[];
-  RequestSubQuestionEntity? _subQuestion;
+  SubQuestionModel? _subQuestion;
 
   @override
   Widget build(BuildContext context) {
 
-    if(_question == null && widget.questionEntity?.question != null) {
-      _question = widget.questionEntity?.question;
+    if(_question == null && widget.questionModel?.question != null) {
+      _question = widget.questionModel?.question;
       _questionTextEditingController.text = _question ?? '';
     }
 
-    if(_answers.isEmpty && widget.questionEntity?.answers != null && widget.questionEntity!.answers!.isNotEmpty) {
-      _answers.addAll(widget.questionEntity!.answers!);
+    if(_answers.isEmpty && widget.questionModel?.answers != null && widget.questionModel!.answers!.isNotEmpty) {
+      _answers.addAll(widget.questionModel!.answers!);
     }
 
-    if(_subQuestion == null && widget.questionEntity?.subQuestion != null) {
-      _subQuestion = widget.questionEntity?.subQuestion;
+    if(_subQuestion == null && widget.questionModel?.subQuestion != null) {
+      _subQuestion = widget.questionModel?.subQuestion;
     }
 
     if(_answers.isEmpty) {
@@ -151,7 +153,15 @@ class _RequestQuestionPageState extends State<RequestQuestionPage> {
                         child: CophatDropdownMenu(
                           labelText: 'Tipo da questão',
                           items: QuestionType.values.map((e) => e.label).toList(),
-                          controller: _dropdownController..value = widget.questionEntity?.questionType ?? '',
+                          controller: _questionTypeDropdownController..value = widget.questionModel?.questionType ?? '',
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 15),
+                        child: CophatDropdownMenu(
+                          labelText: 'Tipo da resposta',
+                          items: AnswerType.values.map((e) => e.label).toList(),
+                          controller: _answerTypeDropdownController..value = widget.questionModel?.answerType ?? '',
                         ),
                       ),
                       const Padding(
@@ -183,26 +193,30 @@ class _RequestQuestionPageState extends State<RequestQuestionPage> {
               Padding(
                 padding: const EdgeInsets.only(top: 15, bottom: 15),
                 child: ButtonCophat(
-                  text: widget.questionEntity == null ? 'Criar' : 'Atualizar',
+                  text: widget.questionModel == null ? 'Criar' : 'Atualizar',
                   onPressed: () {
-                    widget.onCreateOrUpdate(RequestQuestionEntity(
-                      id: widget.questionEntity?.id,
+                    widget.onCreateOrUpdate(QuestionModel(
+                      id: widget.questionModel?.id,
                       question: _questionTextEditingController.text,
-                      questionType: _dropdownController.value,
+                      questionType: _questionTypeDropdownController.value,
+                      answerType: _answerTypeDropdownController.value,
                       answers: _answersControllers.map((e) => e.text).toList(),
-                      subQuestion: _subQuestion?.question != null ? _subQuestion : null,
+                      subQuestion: SubQuestionModel(
+                        question: _subQuestion?.question,
+                        answers: _subQuestion?.answers
+                      ),
                     ));
                     Nav.pop(context);
                   },
                 ),
               ),
-              widget.questionEntity == null ? Container() : Padding(
+              widget.questionModel == null ? Container() : Padding(
                 padding: const EdgeInsets.only(bottom: 15),
                 child: ButtonCophat(
                   text: 'Deletar',
                   onPressed: () {
                     if(widget.onDeletePressed != null) {
-                      widget.onDeletePressed!(widget.questionEntity?.id ?? '');
+                      widget.onDeletePressed!(widget.questionModel?.id ?? '');
                     }
                     Nav.pop(context);
                   },
@@ -217,7 +231,7 @@ class _RequestQuestionPageState extends State<RequestQuestionPage> {
 
   void _goToSubQuestion(BuildContext context) {
     Nav.push(context, RequestSubQuestionPage(
-      subQuestionEntity: _subQuestion,
+      subQuestionModel: _subQuestion,
       onCreateOrUpdate: (subQuestionEntity) {
         setState(() {
           _subQuestion = subQuestionEntity;
@@ -225,7 +239,7 @@ class _RequestQuestionPageState extends State<RequestQuestionPage> {
       },
       onDeletePressed: () {
         setState(() {
-          _subQuestion = RequestSubQuestionEntity();
+          _subQuestion = SubQuestionModel();
         });
       },
     ));

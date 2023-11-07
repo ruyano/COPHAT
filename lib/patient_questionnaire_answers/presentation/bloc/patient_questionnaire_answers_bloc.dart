@@ -1,14 +1,14 @@
+import 'package:cophat/core/models/question_model.dart';
 import 'package:cophat/core/use_case.dart';
-import 'package:cophat/patient_questionnaire_answers/data/models/patient_questionnaire_answers_model.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../child_questionnaire/domain/entities/child_questionnaire_entity.dart';
+
 import '../../../child_questionnaire/domain/use_cases/read_child_questionnaire_use_case.dart';
+import '../../../core/models/answers_model.dart';
 import '../../../patient_questionnaire_answers/domain/use_cases/create_patient_questionnaire_answers_use_case.dart';
 import '../../../patient_questionnaire_answers/domain/use_cases/delete_patient_questionnaire_answers_use_case.dart';
 import '../../../patient_questionnaire_answers/domain/use_cases/read_patient_questionnaire_answers_use_case.dart';
 import '../../../patient_questionnaire_answers/domain/use_cases/update_patient_questionnaire_answers_use_case.dart';
-import '../../domain/entities/patient_questionnaire_answers_entity.dart';
 
 part 'patient_questionnaire_answers_event.dart';
 part 'patient_questionnaire_answers_state.dart';
@@ -139,7 +139,7 @@ class PatientQuestionnaireAnswersBloc extends Bloc<PatientQuestionnaireAnswersEv
         emit(PatientQuestionnaireAnswersError(failure.message));
       },
           (content) async {
-        emit(ChildQuestionnaireSuccess(questionsList: content));
+        emit(ChildQuestionnaireSuccess(questionsList: content as List<QuestionModel>));
       },
     );
   }

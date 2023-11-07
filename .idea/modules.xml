@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/COPHAT.iml" filepath="$PROJECT_DIR$/.idea/COPHAT.iml" />
+      <module fileurl="file://$PROJECT_DIR$/android/cophat_android.iml" filepath="$PROJECT_DIR$/android/cophat_android.iml" />
     </modules>
   </component>
 </project>

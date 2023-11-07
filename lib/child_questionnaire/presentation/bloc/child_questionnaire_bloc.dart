@@ -1,12 +1,12 @@
 import 'package:cophat/core/use_case.dart';
-import 'package:cophat/child_questionnaire/data/models/child_questionnaire_model.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../child_questionnaire/domain/use_cases/create_child_questionnaire_use_case.dart';
 import '../../../child_questionnaire/domain/use_cases/delete_child_questionnaire_use_case.dart';
 import '../../../child_questionnaire/domain/use_cases/read_child_questionnaire_use_case.dart';
 import '../../../child_questionnaire/domain/use_cases/update_child_questionnaire_use_case.dart';
-import '../../domain/entities/child_questionnaire_entity.dart';
+import '../../../core/entities/question_entity.dart';
+import '../../../core/models/question_model.dart';
 
 part 'child_questionnaire_event.dart';
 part 'child_questionnaire_state.dart';
@@ -34,7 +34,7 @@ class ChildQuestionnaireBloc extends Bloc<ChildQuestionnaireEvent, ChildQuestion
     on<DeleteChildQuestionnaireEvent>(_onDeleteGuardianQuestion);
   }
 
-  List<ChildQuestionnaireEntity>? questionsList;
+  List<QuestionEntity>? questionsList;
 
   _onCreateChildQuestionnaire(
       CreateChildQuestionnaireEvent event,
@@ -44,15 +44,7 @@ class ChildQuestionnaireBloc extends Bloc<ChildQuestionnaireEvent, ChildQuestion
     emit(const ChildQuestionnaireLoading());
 
     final result = await _createChildQuestionnaireUseCase(CreateChildQuestionnaireUseCaseParams(
-      childQuestionnaire: ChildQuestionnaireModel(
-        id: event.questionModel.id,
-        question: event.questionModel.question,
-        questionType: event.questionModel.questionType,
-        answers: event.questionModel.answers,
-        subQuestion: event.questionModel.subQuestion,
-        subAnswers: event.questionModel.subAnswers,
-        position: questionsList?.length ?? 0,
-      )
+      childQuestionnaire: event.questionModel
     ));
 
     result.fold(

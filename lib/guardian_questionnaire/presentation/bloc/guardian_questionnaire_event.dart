@@ -18,7 +18,7 @@ class ReadGuardianQuestionnaireEvent extends GuardianQuestionnaireEvent {
 
 class CreateGuardianQuestionEvent extends GuardianQuestionnaireEvent {
 
-  final GuardianQuestionModel questionModel;
+  final QuestionModel questionModel;
 
   const CreateGuardianQuestionEvent({
     required this.questionModel,
@@ -32,7 +32,7 @@ class CreateGuardianQuestionEvent extends GuardianQuestionnaireEvent {
 
 class UpdateGuardianQuestionEvent extends GuardianQuestionnaireEvent {
 
-  final GuardianQuestionModel questionModel;
+  final QuestionModel questionModel;
 
   const UpdateGuardianQuestionEvent({
     required this.questionModel,

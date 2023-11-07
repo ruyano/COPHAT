@@ -1,8 +1,8 @@
 import 'package:cophat/core/error/failure.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
+import '../../../core/models/question_model.dart';
 import '../../../core/use_case.dart';
-import '../../data/models/guardian_question_model.dart';
 import '../repositories/guardian_questionnaire_remote_repository.dart';
 
 class UpdateGuardianQuestionUseCase implements UseCase<void, UpdateGuardianQuestionUseCaseParams> {
@@ -20,7 +20,7 @@ class UpdateGuardianQuestionUseCase implements UseCase<void, UpdateGuardianQuest
 
 class UpdateGuardianQuestionUseCaseParams extends Equatable {
 
-  final GuardianQuestionModel question;
+  final QuestionModel question;
 
   const UpdateGuardianQuestionUseCaseParams({
     required this.question,

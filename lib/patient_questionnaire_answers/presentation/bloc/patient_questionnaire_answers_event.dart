@@ -10,7 +10,7 @@ abstract class PatientQuestionnaireAnswersEvent extends Equatable {
 
 class CreatePatientQuestionnaireAnswersEvent extends PatientQuestionnaireAnswersEvent {
 
-  final PatientQuestionnaireAnswersModel patientQuestionnaireAnswersModel;
+  final AnswersModel patientQuestionnaireAnswersModel;
 
   const CreatePatientQuestionnaireAnswersEvent({
     required this.patientQuestionnaireAnswersModel,
@@ -32,7 +32,7 @@ class ReadPatientQuestionnaireAnswersEvent extends PatientQuestionnaireAnswersEv
 
 class UpdatePatientQuestionnaireAnswersEvent extends PatientQuestionnaireAnswersEvent {
 
-  final PatientQuestionnaireAnswersModel patientQuestionnaireAnswersModel;
+  final AnswersModel patientQuestionnaireAnswersModel;
 
   const UpdatePatientQuestionnaireAnswersEvent({
     required this.patientQuestionnaireAnswersModel,

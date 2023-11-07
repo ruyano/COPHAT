@@ -10,7 +10,7 @@ abstract class ChildQuestionnaireEvent extends Equatable {
 
 class CreateChildQuestionnaireEvent extends ChildQuestionnaireEvent {
 
-  final ChildQuestionnaireModel questionModel;
+  final QuestionModel questionModel;
 
   const CreateChildQuestionnaireEvent({
     required this.questionModel,
@@ -32,7 +32,7 @@ class ReadChildQuestionnaireEvent extends ChildQuestionnaireEvent {
 
 class UpdateChildQuestionnaireEvent extends ChildQuestionnaireEvent {
 
-  final ChildQuestionnaireModel questionModel;
+  final QuestionModel questionModel;
 
   const UpdateChildQuestionnaireEvent({
     required this.questionModel,

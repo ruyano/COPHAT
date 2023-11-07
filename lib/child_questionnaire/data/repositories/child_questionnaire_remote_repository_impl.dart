@@ -1,11 +1,11 @@
 import 'package:dartz/dartz.dart';
 
+import '../../../core/entities/question_entity.dart';
 import '../../../core/error/exceptions.dart';
 import '../../../core/error/failure.dart';
+import '../../../core/models/question_model.dart';
 import '../../domain/repositories/child_questionnaire_remote_repository.dart';
 import '../datasources/child_questionnaire_remote_data_source.dart';
-import '../models/child_questionnaire_model.dart';
-import '../../domain/entities/child_questionnaire_entity.dart';
 
 class ChildQuestionnaireRemoteRepositoryImpl implements ChildQuestionnaireRemoteRepository {
   
@@ -17,7 +17,7 @@ class ChildQuestionnaireRemoteRepositoryImpl implements ChildQuestionnaireRemote
 
   @override
   Future<Either<ServerFailure, void>> createChildQuestionnaire(
-    ChildQuestionnaireModel childQuestionnaire,
+    QuestionModel childQuestionnaire,
     ) async {
       try {
         await remoteDataSource.createChildQuestionnaire(childQuestionnaire);
@@ -32,7 +32,7 @@ class ChildQuestionnaireRemoteRepositoryImpl implements ChildQuestionnaireRemote
   }
 
   @override
-  Future<Either<ServerFailure, List<ChildQuestionnaireEntity>>> readChildQuestionnaires() async {
+  Future<Either<ServerFailure, List<QuestionEntity>>> readChildQuestionnaires() async {
     try {
       final result = await remoteDataSource.readChildQuestionnaires();
       return Right(result);
@@ -47,7 +47,7 @@ class ChildQuestionnaireRemoteRepositoryImpl implements ChildQuestionnaireRemote
   
   @override
   Future<Either<ServerFailure, void>> updateChildQuestionnaire(
-    ChildQuestionnaireModel childQuestionnaire,
+    QuestionModel childQuestionnaire,
     ) async {
       try {
         await remoteDataSource.updateChildQuestionnaire(childQuestionnaire);

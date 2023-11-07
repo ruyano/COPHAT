@@ -2,10 +2,9 @@ import 'package:dartz/dartz.dart';
 
 import '../../../core/error/exceptions.dart';
 import '../../../core/error/failure.dart';
+import '../../../core/models/answers_model.dart';
 import '../../domain/repositories/patient_questionnaire_answers_remote_repository.dart';
 import '../datasources/patient_questionnaire_answers_remote_data_source.dart';
-import '../models/patient_questionnaire_answers_model.dart';
-import '../../domain/entities/patient_questionnaire_answers_entity.dart';
 
 class PatientQuestionnaireAnswersRemoteRepositoryImpl implements PatientQuestionnaireAnswersRemoteRepository {
   
@@ -17,7 +16,7 @@ class PatientQuestionnaireAnswersRemoteRepositoryImpl implements PatientQuestion
 
   @override
   Future<Either<ServerFailure, void>> createPatientQuestionnaireAnswers(
-    PatientQuestionnaireAnswersModel patientQuestionnaireAnswers,
+    AnswersModel patientQuestionnaireAnswers,
     ) async {
       try {
         await remoteDataSource.createPatientQuestionnaireAnswers(patientQuestionnaireAnswers);
@@ -32,7 +31,7 @@ class PatientQuestionnaireAnswersRemoteRepositoryImpl implements PatientQuestion
   }
 
   @override
-  Future<Either<ServerFailure, List<PatientQuestionnaireAnswersEntity>>> readPatientQuestionnaireAnswerss() async {
+  Future<Either<ServerFailure, List<AnswersModel>>> readPatientQuestionnaireAnswerss() async {
     try {
       final result = await remoteDataSource.readPatientQuestionnaireAnswerss();
       return Right(result);
@@ -47,7 +46,7 @@ class PatientQuestionnaireAnswersRemoteRepositoryImpl implements PatientQuestion
   
   @override
   Future<Either<ServerFailure, void>> updatePatientQuestionnaireAnswers(
-    PatientQuestionnaireAnswersModel patientQuestionnaireAnswers,
+    AnswersModel patientQuestionnaireAnswers,
     ) async {
       try {
         await remoteDataSource.updatePatientQuestionnaireAnswers(patientQuestionnaireAnswers);

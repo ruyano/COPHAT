@@ -1,9 +1,9 @@
 import 'package:cophat/core/use_case.dart';
-import 'package:cophat/guardian_questionnaire/data/models/guardian_question_model.dart';
 import 'package:cophat/guardian_questionnaire/domain/use_cases/create_guardian_question_use_case.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../domain/entities/guardian_question_entity.dart';
+import '../../../core/entities/question_entity.dart';
+import '../../../core/models/question_model.dart';
 import '../../domain/use_cases/delete_guardian_question_use_case.dart';
 import '../../domain/use_cases/read_guardian_question_use_case.dart';
 import '../../domain/use_cases/update_guardian_question_use_case.dart';
@@ -34,7 +34,7 @@ class GuardianQuestionnaireBloc extends Bloc<GuardianQuestionnaireEvent, Guardia
     on<DeleteGuardianQuestionEvent>(_onDeleteGuardianQuestion);
   }
 
-  List<GuardianQuestionEntity>? questionsList;
+  List<QuestionEntity>? questionsList;
 
   _onCreateGuardianQuestionnaire(
       CreateGuardianQuestionEvent event,
@@ -44,15 +44,7 @@ class GuardianQuestionnaireBloc extends Bloc<GuardianQuestionnaireEvent, Guardia
     emit(const GuardianQuestionnaireLoading());
 
     final result = await _createGuardianQuestionUseCase(CreateGuardianQuestionUseCaseParams(
-        question: GuardianQuestionModel(
-          id: event.questionModel.id,
-          question: event.questionModel.question,
-          questionType: event.questionModel.questionType,
-          answers: event.questionModel.answers,
-          subQuestion: event.questionModel.subQuestion,
-          subAnswers: event.questionModel.subAnswers,
-          position: questionsList?.length ?? 0,
-        )
+        question: event.questionModel
     ));
 
     result.fold(
