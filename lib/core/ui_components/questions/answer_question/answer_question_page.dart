@@ -112,6 +112,7 @@ class _AnswerQuestionPageState extends State<AnswerQuestionPage> {
                             widget.onCreateOrUpdate(
                                 AnswersModel(
                                   date: DateTime.now(),
+                                  questions: widget.questionsList,
                                   answers: answersList,
                                 )
                             );
