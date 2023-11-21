@@ -1,6 +1,8 @@
 import 'package:cophat/core/models/question_model.dart';
 import 'package:cophat/core/models/single_answer_model.dart';
 
+import '../question_type.dart';
+
 class AnswersModel {
   String? id;
   DateTime? date;
@@ -38,4 +40,19 @@ class AnswersModel {
     }
     return data;
   }
+
+  int getValueByQuestionType(QuestionType type) {
+    int value = 0;
+
+    questions?.asMap().forEach((index, element) {
+      if(element.questionType == type.label) {
+        var resposta = answers?[index].singleAnswer;
+        var posicaoDaResposta = element.answers?.indexOf(resposta!);
+        value += posicaoDaResposta ?? 0;
+      }
+    });
+
+    return value;
+  }
+  
 }

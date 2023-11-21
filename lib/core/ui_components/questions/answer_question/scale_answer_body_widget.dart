@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 
+import '../../../models/single_answer_model.dart';
+
 class ScaleAnswerBodyWidget extends StatefulWidget {
 
   final String question;
   final List<String> answers;
-  final List<ValueNotifier<int?>> controllers;
+  final ValueNotifier<SingleAnswerModel>? controller;
 
   ScaleAnswerBodyWidget({
     super.key,
     required this.question,
     required this.answers,
-    required this.controllers,
+    required this.controller,
   });
 
   @override
@@ -23,6 +25,15 @@ class _ScaleAnswerBodyWidgetState extends State<ScaleAnswerBodyWidget> {
 
   @override
   Widget build(BuildContext context) {
+
+    widget.controller?.value.scaledAnswers ??= [];
+
+    if(widget.controller?.value.scaledAnswers?.isEmpty ?? false) {
+      for (int i = 0; i < widget.answers.length; i++) {
+        widget.controller?.value.scaledAnswers?.add(-1);
+      }
+    }
+
     return  Expanded(
       child: SingleChildScrollView(
         child: Column(
@@ -43,18 +54,17 @@ class _ScaleAnswerBodyWidgetState extends State<ScaleAnswerBodyWidget> {
   _listOfAnswers(List<String> answers) {
     var list = <Widget>[];
     for(int i = 0; i < answers.length ; i++) {
-      widget.controllers.add(ValueNotifier<int?>(0));
       list.add(
           _scaleAnswerBody(
-              answers[i],
-              widget.controllers[i]
+            answers[i],
+            i,
           )
       );
     }
     return list;
   }
 
-  _scaleAnswerBody(String answer, ValueNotifier<int?> controller) {
+  _scaleAnswerBody(String answer, int position) {
     return Padding(
       padding: const EdgeInsets.only(top: 15),
       child: Row(
@@ -65,51 +75,28 @@ class _ScaleAnswerBodyWidgetState extends State<ScaleAnswerBodyWidget> {
             width: 100,
             child: Text(answer),
           ),
-          ScaleWidget(controller: controller,),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              ..._listOfOptions(position),
+            ],
+          ),
         ],
       ),
     );
   }
 
-}
-
-class ScaleWidget extends StatefulWidget {
-
-  final ValueNotifier<int?> controller;
-
-  const ScaleWidget({
-    super.key,
-    required this.controller,
-  });
-
-  @override
-  State<StatefulWidget> createState() => _ScaleWidgetState();
-
-}
-
-class _ScaleWidgetState extends State<ScaleWidget> {
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        ..._listOfAnswers(),
-      ],
-    );
-  }
-
-  _listOfAnswers() {
+  _listOfOptions(int position) {
     var list = <Widget>[];
     for(int i = 0; i < 5 ; i++) {
       list.add(
         Radio(
           value: i,
-          groupValue: widget.controller.value,
+          groupValue: widget.controller?.value.scaledAnswers?[position],
           onChanged: (value) {
             setState(() {
-              widget.controller.value = value;
+              widget.controller?.value.scaledAnswers?[position] = value ?? -1;
             });
           },
         ),

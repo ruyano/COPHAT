@@ -5,7 +5,6 @@ import 'package:cophat/core/ui_components/questions/answer_question/multiple_ans
 import 'package:cophat/core/ui_components/questions/answer_question/scale_answer_body_widget.dart';
 import 'package:cophat/core/ui_components/questions/answer_question/single_answer_body_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:ntp/ntp.dart';
 
 import '../../../answer_type.dart';
 import '../../../models/answers_model.dart';
@@ -157,12 +156,13 @@ class _AnswerQuestionPageState extends State<AnswerQuestionPage> {
       return ScaleAnswerBodyWidget(
         question: widget.questionsList[currentQuestion].question!,
         answers: widget.questionsList[currentQuestion].answers!,
-        controllers: [],
+        controller: _answersControllers.length >= currentQuestion ? _answersControllers[currentQuestion] : null,
       );
     } else if(widget.questionsList[currentQuestion].answerType == AnswerType.multipleOption.label) {
       return MultipleAnswerBodyWidget(
-          question: widget.questionsList[currentQuestion].question!,
-          answers: widget.questionsList[currentQuestion].answers!
+        question: widget.questionsList[currentQuestion].question!,
+        answers: widget.questionsList[currentQuestion].answers!,
+        controller: _answersControllers.length >= currentQuestion ? _answersControllers[currentQuestion] : null,
       );
     }
     return SingleAnswerBodyWidget(

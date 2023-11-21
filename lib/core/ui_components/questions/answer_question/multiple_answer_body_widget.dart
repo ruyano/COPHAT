@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 
+import '../../../models/single_answer_model.dart';
+
 class MultipleAnswerBodyWidget extends StatefulWidget {
 
   final String question;
   final List<String> answers;
+  final ValueNotifier<SingleAnswerModel>? controller;
 
   MultipleAnswerBodyWidget({
     super.key,
     required this.question,
     required this.answers,
+    required this.controller,
   });
 
   @override
@@ -20,6 +24,15 @@ class _MultipleAnswerBodyWidgetState extends State<MultipleAnswerBodyWidget> {
 
   @override
   Widget build(BuildContext context) {
+
+    widget.controller?.value.multipleAnswers ??= [];
+
+    if(widget.controller?.value.multipleAnswers?.isEmpty ?? false) {
+      for (int i = 0; i < widget.answers.length; i++) {
+        widget.controller?.value.multipleAnswers?.add(false);
+      }
+    }
+
     return  Expanded(
       child: SingleChildScrollView(
         child: Column(
@@ -40,47 +53,25 @@ class _MultipleAnswerBodyWidgetState extends State<MultipleAnswerBodyWidget> {
   _listOfAnswers(List<String> answers) {
     var list = <Widget>[];
     for(int i = 0; i < answers.length ; i++) {
-      list.add(_createCheckbox(answers[i]));
+      list.add(_createCheckbox(answers[i], i));
     }
     return list;
   }
 
-  _createCheckbox(String answer) {
+  _createCheckbox(String answer, int position) {
     return Padding(
       padding: const EdgeInsets.only(top: 15),
       child: ListTile(
         title: Text(answer),
-        leading: MultipleAnswerWidget(),
+        leading: Checkbox(
+          value: widget.controller?.value.multipleAnswers?[position] ?? false,
+          onChanged: (newValue) {
+            setState(() {
+              widget.controller?.value.multipleAnswers?[position] = newValue ?? false;
+            });
+          },
+        ),
       ),
-    );
-  }
-
-}
-
-class MultipleAnswerWidget extends StatefulWidget {
-
-  const MultipleAnswerWidget({
-    super.key,
-  });
-
-  @override
-  State<StatefulWidget> createState() => _MultipleAnswerWidgetState();
-
-}
-
-class _MultipleAnswerWidgetState extends State<MultipleAnswerWidget> {
-
-  bool? currentValue = false;
-
-  @override
-  Widget build(BuildContext context) {
-    return Checkbox(
-      value: currentValue,
-      onChanged: (newValue) {
-        setState(() {
-          currentValue = newValue ?? false;
-        });
-      },
     );
   }
 

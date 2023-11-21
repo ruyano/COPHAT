@@ -1,14 +1,18 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cophat/core/nav.dart';
+import 'package:cophat/core/ui_components/questions/show_comparation_graphics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 
 import '../../../../core/ui_components/button_cophat.dart';
-import '../../../core/loading_indicator.dart';
 import '../../../core/empty_indicator.dart';
+import '../../../core/loading_indicator.dart';
 import '../../../core/models/answers_model.dart';
 import '../../../core/show_error.dart';
 import '../../../core/ui_components/questions/answer_question/answer_question_page.dart';
+import '../../../core/ui_components/questions/answer_question/answers_graphics.dart';
+import '../../../core/ui_components/questions/show_single_graphic.dart';
 import '../bloc/patient_questionnaire_answers_bloc.dart';
 import 'patient_questionnaire_answers_injection_container.dart' as di;
 
@@ -117,11 +121,24 @@ class PatientQuestionnaireAnswersPage extends StatelessWidget {
                           child: Card(
                               child: ListTile(
                                 onTap: () {
+                                  Nav.push(context, ShowSingleGraphic(answersModel: patientAnswers![index],));
                                 },
-                                title: Text(patientAnswers?[index].id.toString() ?? '-'),
+                                title: Text(patientAnswers?[index].date != null ? DateFormat.yMd().format(patientAnswers![index].date!) : '-'),
                               )),
                         );
                       }),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 15, bottom: 15),
+                child: ButtonCophat(
+                  text: 'Visualizar gráficos',
+                  onPressed: () {
+                    Nav.push(context, ShowComparationGraphics(
+                        answersModelPatient: patientAnswers![0],
+                        answersModelGuardian: patientAnswers[1])
+                    );
+                  },
                 ),
               ),
               Padding(

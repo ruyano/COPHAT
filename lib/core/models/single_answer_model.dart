@@ -1,14 +1,14 @@
 class SingleAnswerModel {
   String? singleAnswer;
-  List<String>? multipleAnswers;
-  List<String>? scaledAnswers;
+  List<bool>? multipleAnswers;
+  List<int>? scaledAnswers;
 
   SingleAnswerModel({this.singleAnswer, this.multipleAnswers, this.scaledAnswers});
 
   SingleAnswerModel.fromJson(Map<String, dynamic> json) {
     singleAnswer = json['singleAnswer'];
-    multipleAnswers = json['multipleAnswers']?.cast<String>();
-    scaledAnswers = json['scaledAnswers']?.cast<String>();
+    multipleAnswers = json['multipleAnswers']?.cast<bool>();
+    scaledAnswers = json['scaledAnswers']?.cast<int>();
   }
 
   Map<String, dynamic> toJson() {

@@ -1,4 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:cophat/core/ui_components/questions/show_comparation_graphics.dart';
 import 'package:cophat/patient/presentation/patient_list/presentation/widgets/patient_create_or_update.dart';
 import 'package:flutter/material.dart';
 import '../../../../../core/nav.dart';
@@ -91,6 +92,17 @@ class PatientHomePage extends StatelessWidget {
                               ));
                             }),
                       ),
+                      // Padding(
+                      //   padding: const EdgeInsets.only(top: 15),
+                      //   child: ButtonCophat(
+                      //       text: 'Comparar gráficos',
+                      //       onPressed: () {
+                      //         Nav.push(context, ShowComparationGraphics(
+                      //             answersModelPatient: answersModelPatient,
+                      //             answersModelGuardian: answersModelGuardian)
+                      //         );
+                      //       }),
+                      // ),
                     ],
                   ),
                 ),

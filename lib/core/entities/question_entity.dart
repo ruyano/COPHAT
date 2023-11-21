@@ -10,7 +10,7 @@ class QuestionEntity extends Equatable {
   final String? answerType;
   final List<String>? answers;
   final SubQuestionModel? subQuestion;
-  final int? position;
+  int? position;
 
   QuestionEntity({
     this.id,

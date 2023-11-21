@@ -43,6 +43,8 @@ class ChildQuestionnaireBloc extends Bloc<ChildQuestionnaireEvent, ChildQuestion
 
     emit(const ChildQuestionnaireLoading());
 
+    event.questionModel.position = questionsList?.length ?? 0;
+
     final result = await _createChildQuestionnaireUseCase(CreateChildQuestionnaireUseCaseParams(
       childQuestionnaire: event.questionModel
     ));
